@@ -58,7 +58,7 @@ public class BoxSDK {
         // swiftlint:disable:next force_try
         configuration = try! BoxSDKConfiguration(clientId: clientId, clientSecret: clientSecret, callbackURL: callbackURL)
         networkAgent = BoxNetworkAgent(configuration: configuration)
-        auth = AuthModule(networkAgent: networkAgent, configuration: configuration)
+        auth = AuthModuleImpl(networkAgent: networkAgent, configuration: configuration)
     }
 
     /// Creates BoxClient object based on developer token
@@ -71,7 +71,7 @@ public class BoxSDK {
             networkAgent: networkAgent,
             session: SingleTokenSession(
                 token: token,
-                authModule: AuthModule(networkAgent: networkAgent, configuration: defaultConfiguration)
+                authModule: AuthModuleImpl(networkAgent: networkAgent, configuration: defaultConfiguration)
             ),
             configuration: defaultConfiguration
         )
@@ -102,7 +102,7 @@ public class BoxSDK {
     ) {
         var designatedTokenStore: TokenStore
         let networkAgent = BoxNetworkAgent(configuration: configuration)
-        let authModule = AuthModule(networkAgent: networkAgent, configuration: configuration)
+        let authModule = AuthModuleImpl(networkAgent: networkAgent, configuration: configuration)
 
         if tokenInfo == nil, let unWrappedTokenStore = tokenStore {
             designatedTokenStore = unWrappedTokenStore
@@ -453,7 +453,7 @@ public extension BoxSDK {
 
         // Refresh config-dependent objects
         networkAgent = BoxNetworkAgent(configuration: configuration)
-        auth = AuthModule(networkAgent: networkAgent, configuration: configuration)
+        auth = AuthModuleImpl(networkAgent: networkAgent, configuration: configuration)
     }
 }
 

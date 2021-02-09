@@ -38,8 +38,28 @@ public protocol TokenRefreshing {
     func getToken(withCode: String, completion: @escaping TokenInfoClosure)
 }
 
+public protocol AuthModule: TokenRefreshing {
+    
+    /// Revokes an access or refresh token, rendering it invalid.
+    ///
+    /// - Parameters:
+    ///   - token: The token to revoke.
+    ///   - completion: Called after the revocation completes
+    func revokeToken(token: String, completion: @escaping Callback<Void>)
+
+    /// Downscope the token.
+    ///
+    /// - Parameters:
+    ///   - parentToken: Fully-scoped access token. This can be an OAuth (Managed User), JWT (App User or Service Account) or an App Token (New Box View) token.
+    ///   - scope: Scope or scopes that you want to apply to the resulting token.
+    ///   - resource: Full url path to the file that the token should be generated for, eg: https://api.box.com/2.0/files/{file_id}
+    ///   - sharedLink: Shared link to get a token for.
+    ///   - completion: Returns the token data or an error.
+    func downscopeToken(parentToken: String, scope: Set<TokenScope>, resource: String?, sharedLink: String?, completion: @escaping TokenInfoClosure)
+}
+
 /// Provides [Token](../Structs/Token.html) management.
-public class AuthModule: TokenRefreshing {
+public class AuthModuleImpl: AuthModule {
     /// Required for communicating with Box APIs.
     private var networkAgent: NetworkAgentProtocol
     private var configuration: BoxSDKConfiguration
