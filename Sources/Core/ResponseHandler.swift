@@ -9,13 +9,13 @@
 import Foundation
 
 /// Utility methods for common response handling
-enum ResponseHandler {
+public enum ResponseHandler {
 
     /// Make sure the response is successful (status code 2xx) and deserialize
     /// the response body into the appropriate type.
     ///
     /// - Parameter completion: The user-specified completion block to call with the resulting deserialized object
-    static func `default`<T: BoxModel>(wrapping completion: @escaping Callback<T>) -> Callback<BoxResponse> {
+    public static func `default`<T: BoxModel>(wrapping completion: @escaping Callback<T>) -> Callback<BoxResponse> {
         return { (result: Result<BoxResponse, BoxSDKError>) in
             let objectResult: Result<T, BoxSDKError> = result.flatMap { ObjectDeserializer.deserialize(data: $0.body) }
             completion(objectResult)
@@ -26,7 +26,7 @@ enum ResponseHandler {
     /// the response body into the appropriate type.
     ///
     /// - Parameter completion: The user-specified completion block to call with the resulting deserialized object
-    static func `default`<T: Decodable>(wrapping completion: @escaping Callback<T>) -> Callback<BoxResponse> {
+    public static func `default`<T: Decodable>(wrapping completion: @escaping Callback<T>) -> Callback<BoxResponse> {
         return { (result: Result<BoxResponse, BoxSDKError>) in
             let objectResult: Result<T, BoxSDKError> = result.flatMap { ObjectDeserializer.deserialize(response: $0) }
             completion(objectResult)
@@ -37,7 +37,7 @@ enum ResponseHandler {
     /// for operations that do not return meaningful results — just success vs. failure.
     ///
     /// - Parameter completion: The user-specified completion block to call with the result
-    static func `default`(wrapping completion: @escaping Callback<Void>) -> Callback<BoxResponse> {
+    public static func `default`(wrapping completion: @escaping Callback<Void>) -> Callback<BoxResponse> {
         return { (result: Result<BoxResponse, BoxSDKError>) in
             let objectResult = result.map { _ in }
             completion(objectResult)

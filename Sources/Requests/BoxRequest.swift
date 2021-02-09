@@ -38,7 +38,7 @@ public class BoxRequest {
     // The path on the local FileSystem where a download request will write the data
     var downloadDestination: URL?
 
-    init(
+    public init(
         httpMethod: HTTPMethod,
         url: URL,
         httpHeaders: BoxHTTPHeaders = [:],

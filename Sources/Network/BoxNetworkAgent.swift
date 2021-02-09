@@ -21,7 +21,7 @@ enum BoxAPIHeaderKey {
     static let sharedLinkPassword = "shared_link_password"
 }
 
-enum HTTPMethod: String {
+public enum HTTPMethod: String {
     case get
     case post
     case put

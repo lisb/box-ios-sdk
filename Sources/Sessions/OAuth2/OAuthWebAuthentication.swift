@@ -25,12 +25,12 @@ protocol OAuthWebAuthenticationable {
 }
 
 #if os(iOS)
-    class AuthenticationSession: OAuthWebAuthenticationable {
+    public class AuthenticationSession: OAuthWebAuthenticationable {
 
         private let authSession: OAuthWebAuthenticationable
 
         @available(iOS 11.0, *)
-        required init(
+        public required init(
             url: URL,
             callbackURLScheme: String?,
             completionHandler: @escaping (URL?, Error?) -> Void
@@ -44,7 +44,7 @@ protocol OAuthWebAuthenticationable {
         }
 
         @available(iOS 13.0, *)
-        required init(
+        public required init(
             url: URL,
             callbackURLScheme: String?,
             context: ASWebAuthenticationPresentationContextProviding,
@@ -56,7 +56,7 @@ protocol OAuthWebAuthenticationable {
         }
 
         @discardableResult
-        func start() -> Bool {
+        public func start() -> Bool {
             return authSession.start()
         }
 
