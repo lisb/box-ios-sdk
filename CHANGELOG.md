@@ -1,31 +1,263 @@
-Changelog
-=========
+# Changelog
 
-## Next Release
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-__Breaking Changes:__
+## [6.9.0](https://github.com/box/box-ios-sdk/compare/6.8.0...6.9.0) (2026-05-06)
 
-__New Features and Enhancements:__
 
-__Bug Fixes:__
+### ⚠ BREAKING CHANGES
 
-## v5.0.0 [2021-10-28]
+* **boxsdkgen:** Mark `id` field of `AIAgentReference` required (box/box-openapi[#1629](https://github.com/box/box-ios-sdk/issues/1629)) (box/box-openapi[#595](https://github.com/box/box-ios-sdk/issues/595)) ([#1487](https://github.com/box/box-ios-sdk/issues/1487)) ([06facee](https://github.com/box/box-ios-sdk/commit/06facee260a003198f8996f973d78755b9b6ba3b))
 
-__Breaking Changes:__
+### Bug Fixes
+
+* **boxsdkgen:** Fix metadata template schema (box/box-openapi[#596](https://github.com/box/box-ios-sdk/issues/596)) ([#1490](https://github.com/box/box-ios-sdk/issues/1490)) ([72f479f](https://github.com/box/box-ios-sdk/commit/72f479fbdc6a09e1a33649bcd1b98e66f10be12c))
+* **boxsdkgen:** Mark `id` field of `AIAgentReference` required (box/box-openapi[#1629](https://github.com/box/box-ios-sdk/issues/1629)) (box/box-openapi[#595](https://github.com/box/box-ios-sdk/issues/595)) ([#1487](https://github.com/box/box-ios-sdk/issues/1487)) ([06facee](https://github.com/box/box-ios-sdk/commit/06facee260a003198f8996f973d78755b9b6ba3b))
+
+## [6.8.0](https://github.com/box/box-ios-sdk/compare/6.7.0...6.8.0) (2026-04-30)
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** Automate Public API (box/box-openapi[#594](https://github.com/box/box-ios-sdk/issues/594)) ([#1476](https://github.com/box/box-ios-sdk/issues/1476)) ([eae1640](https://github.com/box/box-ios-sdk/commit/eae16401f09d0a1a4edb289d3816f5ebf4eedeb1))
+
+## [6.7.0](https://github.com/box/box-ios-sdk/compare/6.6.0...6.7.0) (2026-04-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **boxsdkgen:** Update `retentionLength` field to accept both string and integer (box/box-codegen#932) (#1451)
+* **boxsdkgen:** Add `max_extension_length` field to Retention Policies (box/box-openapi#593) [#1464]
+
+### Bug Fixes
+
+* **boxsdkgen:** Update `retentionLength` field to accept both string and integer (box/box-codegen[#932](https://github.com/box/box-ios-sdk/issues/932)) ([#1451](https://github.com/box/box-ios-sdk/issues/1451)) ([5eacf00](https://github.com/box/box-ios-sdk/commit/5eacf00a2b2b84dcfe24c4eeae06dbf8f24296d4))
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** Add `max_extension_length` field to Retention Policies (box/box-openapi[#593](https://github.com/box/box-ios-sdk/issues/593)) ([#1464](https://github.com/box/box-ios-sdk/issues/1464)) ([c520993](https://github.com/box/box-ios-sdk/commit/c520993af9b0129f376fda8f8451712187e73707))
+
+## [6.6.0](https://github.com/box/box-ios-sdk/compare/6.5.0...6.6.0) (2026-04-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **boxsdkgen:** Correct search content type 'tags' to match API (box/box-openapi#591) (#1437)
+
+### Bug Fixes
+
+* **boxsdkgen:** Correct search content type 'tags' to match API (box/box-openapi[#591](https://github.com/box/box-ios-sdk/issues/591)) ([#1437](https://github.com/box/box-ios-sdk/issues/1437)) ([ae3f23a](https://github.com/box/box-ios-sdk/commit/ae3f23a570cb19121f03e91d8ec4cfc049878f24))
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** Add `reference` to `AI` and `parent_id` to `HubsItems` (box/box-openapi[#588](https://github.com/box/box-ios-sdk/issues/588)) ([#1423](https://github.com/box/box-ios-sdk/issues/1423)) ([a038414](https://github.com/box/box-ios-sdk/commit/a038414b3d635ae8521cd3bfb695d1279161b3cb))
+* **boxsdkgen:** Support Hub Document API (box/box-codegen[#930](https://github.com/box/box-ios-sdk/issues/930)) ([#1438](https://github.com/box/box-ios-sdk/issues/1438)) ([2fd2f2a](https://github.com/box/box-ios-sdk/commit/2fd2f2ad295af902b32732a61eac01ce33ae4cd8))
+
+## [6.5.0](https://github.com/box/box-ios-sdk/compare/6.4.0...6.5.0) (2026-03-18)
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** add `canPublicSharedLinkBeCreated` to `Hubs` (box/box-codegen[#928](https://github.com/box/box-ios-sdk/issues/928)) ([#1419](https://github.com/box/box-ios-sdk/issues/1419)) ([fc31122](https://github.com/box/box-ios-sdk/commit/fc3112295e70c30828ce8d22b2f0e769c951aa53))
+* **boxsdkgen:** Add configurable timeouts for SDKs (box/box-codegen[#924](https://github.com/box/box-ios-sdk/issues/924)) ([#1413](https://github.com/box/box-ios-sdk/issues/1413)) ([2ec0103](https://github.com/box/box-ios-sdk/commit/2ec010388d83237c5ba54585db652ba8a6614838))
+
+## [6.4.0](https://github.com/box/box-ios-sdk/compare/6.3.0...6.4.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **boxsdkgen:** Correct enum value for legal hold policy changes (box/box-openapi[#581](https://github.com/box/box-ios-sdk/issues/581)) ([#1375](https://github.com/box/box-ios-sdk/issues/1375)) ([d16f003](https://github.com/box/box-ios-sdk/commit/d16f003c1a4ec93e7d7dac59d3636ef54ac162be))
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** add confidence scores for structured extract (box/box-openapi[#582](https://github.com/box/box-ios-sdk/issues/582)) ([#1378](https://github.com/box/box-ios-sdk/issues/1378)) ([26bf4de](https://github.com/box/box-ios-sdk/commit/26bf4de255953975b4865f943b71d4e1c5feca0a))
+* **boxsdkgen:** add signer language, cancel sign request reason (box/box-openapi[#584](https://github.com/box/box-ios-sdk/issues/584)) ([#1394](https://github.com/box/box-ios-sdk/issues/1394)) ([8526aa6](https://github.com/box/box-ios-sdk/commit/8526aa6063315c6140b3742562222940dec87d79))
+* **boxsdkgen:** Add watermarking permissions and sources information (box/box-openapi[#579](https://github.com/box/box-ios-sdk/issues/579)) ([#1367](https://github.com/box/box-ios-sdk/issues/1367)) ([abe6e2c](https://github.com/box/box-ios-sdk/commit/abe6e2cf6fb6866a13d51828ac1e5d721fe22395))
+
+## [6.3.0](https://github.com/box/box-ios-sdk/compare/6.2.0...6.3.0) (2025-12-19)
+
+
+### Bug Fixes
+
+* **boxsdkgen:** add taxonomy to Metadata Field (read) definition (box/box-openapi[#572](https://github.com/box/box-ios-sdk/issues/572)) ([#1334](https://github.com/box/box-ios-sdk/issues/1334)) ([373240a](https://github.com/box/box-ios-sdk/commit/373240ae0884f94c64a0caa2951f29212becd0fd))
+* **boxsdkgen:** fix `RetryAfter` function when there's no `Retry-After` header (box/box-codegen[#903](https://github.com/box/box-ios-sdk/issues/903)) ([#1312](https://github.com/box/box-ios-sdk/issues/1312)) ([783ef91](https://github.com/box/box-ios-sdk/commit/783ef91c6744caeddb4fda3d83c070095733f6c1))
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** add Metadata Taxonomies api (box/box-openapi[#569](https://github.com/box/box-ios-sdk/issues/569)) ([#1320](https://github.com/box/box-ios-sdk/issues/1320)) ([2b52332](https://github.com/box/box-ios-sdk/commit/2b52332460bb03412bd96df77e8cf45bb8abf35f))
+* **boxsdkgen:** text input validation for Box Sign (box/box-openapi[#568](https://github.com/box/box-ios-sdk/issues/568)) ([#1314](https://github.com/box/box-ios-sdk/issues/1314)) ([bebd148](https://github.com/box/box-ios-sdk/commit/bebd148378927efc4d015f88914d2b0a5915c41d))
+* **boxsdkgen:** Treat `nullable` fields as Optional (box/box-codegen[#906](https://github.com/box/box-ios-sdk/issues/906)) ([#1324](https://github.com/box/box-ios-sdk/issues/1324)) ([c17e23a](https://github.com/box/box-ios-sdk/commit/c17e23af55829f182e3d302682d0444520693217))
+
+## [6.2.0](https://github.com/box/box-ios-sdk/compare/6.1.0...6.2.0) (2025-12-10)
+
+
+### Bug Fixes
+
+* **boxsdkgen:** Remove duplicate optional wrapping (box/box-codegen[#898](https://github.com/box/box-ios-sdk/issues/898)) ([#1302](https://github.com/box/box-ios-sdk/issues/1302)) ([4fae34a](https://github.com/box/box-ios-sdk/commit/4fae34add0569ac907d2f50e1ab2a7da7a223f6b))
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** Remove `confidence_score` and `include_confidence_score` from AI extract (box/box-openapi[#567](https://github.com/box/box-ios-sdk/issues/567)) ([#1304](https://github.com/box/box-ios-sdk/issues/1304)) ([143ef03](https://github.com/box/box-ios-sdk/commit/143ef03119c6ac6f7f4bff198ce8578a78abd353))
+* **boxsdkgen:** Support new sign request metadata (box/box-openapi[#565](https://github.com/box/box-ios-sdk/issues/565)) ([#1286](https://github.com/box/box-ios-sdk/issues/1286)) ([e6c0826](https://github.com/box/box-ios-sdk/commit/e6c082659f65bfcc8eb17de1552d23d07eeb7d56))
+
+## [6.1.0](https://github.com/box/box-ios-sdk/compare/6.0.0...6.1.0) (2025-11-20)
+
+
+### New Features and Enhancements
+
+* **boxsdkgen:** Support GET enterprise configuration API (box/box-openapi[#559](https://github.com/box/box-ios-sdk/issues/559)) ([#1190](https://github.com/box/box-ios-sdk/issues/1190)) ([c91bb4f](https://github.com/box/box-ios-sdk/commit/c91bb4fa1b5907698fd6d0fd38560501c4d0274b))
+* **boxsdkgen:** Support Archive API (box/box-openapi[#563](https://github.com/box/box-ios-sdk/issues/563)) ([#1237](https://github.com/box/box-ios-sdk/issues/1237)) ([07aaf3a](https://github.com/box/box-ios-sdk/commit/07aaf3adde1ec46ed6f2423093b451b975005368))
+
+## [6.0.0](https://github.com/box/box-ios-sdk/compare/v5.6.0...v6.0.0) (2025-10-23)
+
+Introducing a new major version of Box iOS SDK `v6` that includes two modules — the manually maintained module and the generated module. The coexisting modules provide easier access to the latest Box API features and support gradual migration to the standalone generated module.
+
+### Breaking Changes
+
+- With `v6` of Box iOS SDK, support for iOS 11.0, macOS 10.13, tvOS 11.0+ and watchOS 4.0 has been dropped.
+
+Starting with `v6`, the minimum supported versions are iOS 13.0, macOS 10.15, tvOS 13.0, and watchOS 6.0.
+
+This update aligns the SDK with current Apple development standards and is required to adopt the new features available in the BoxSdkGen module.
+
+For the latest submission and SDK toolchain requirements, see Apple’s SDK minimum requirements [Apple Developer](https://developer.apple.com/news/upcoming-requirements/?id=02212025a).
+
+For more information about migrating to v6 visit [v5 to v6 migration guide](https://github.com/box/box-ios-sdk/blob/combined-sdk/migration-guides/from-v5-to-v6.md)
+
+### What's New in `v6`
+
+With this SDK version, alongside the existing `BoxSDK` module, we’re introducing a new `BoxSdkGen` module, which gives you access to:
+
+- **Full API Support** — Complete coverage of the Box API ecosystem, giving you access to all the latest features and functionalities to build feature-rich applications.  
+
+- **Rapid API Updates** — Our new auto-generation approach enables Box API additions within days, ensuring you can leverage the most up-to-date features without delay.  
+
+- **Embedded Documentation** — All objects and parameters are documented directly in the SDK source code, keeping essential information in one place.  
+
+- **Enhanced Convenience Methods** — New methods for authentication, chunk uploads, automatic retries, retry strategy, and more.
+
+### Important Notes
+
+This version allows you to gradually migrate your codebase to the `BoxSdkGen` module. The key differences between the modules are documented in the [module migration guide](https://github.com/box/box-ios-sdk/blob/combined-sdk/migration-guides/from-BoxSDK-to-BoxSdkGen.md).
+
+Ultimately, we recommend to migrate to `v10` which includes only the generated module `BoxSdkGen`. To migrate from `v6` to `v10` follow this [migration guide](https://github.com/box/box-ios-sdk/blob/combined-sdk/migration-guides/from-v6-to-v10.md). 
+
+For more information, see the [SDK versioning strategy document](https://developer.box.com/guides/tooling/sdks/sdk-versioning/). Follow developer changelog for future updates.
+
+## [5.6.0](https://github.com/box/box-ios-sdk/compare/v5.5.0...v5.6.0) (2024-04-05)
+
+
+### New Features and Enhancements
+
+* Add privacy manifest files ([#924](https://github.com/box/box-ios-sdk/issues/924)) ([cbef168](https://github.com/box/box-ios-sdk/commit/cbef168bb872941899be26116c647ac29f5dd44b))
+* Add support for `visionOS` ([#916](https://github.com/box/box-ios-sdk/issues/916)) ([a05b243](https://github.com/box/box-ios-sdk/commit/a05b2433f1b2d0c1ec72f946e0706d03a4548703))
+* Add support for additional fields in `SignRequest` ([#919](https://github.com/box/box-ios-sdk/issues/919)) ([36f464c](https://github.com/box/box-ios-sdk/commit/36f464c23a161f5d0fcc6858c3615d884ce8ee07))
+* Make fields from `TokenInfo` publicly available ([#920](https://github.com/box/box-ios-sdk/issues/920)) ([eb26f47](https://github.com/box/box-ios-sdk/commit/eb26f47bbde6749f44f149e95b3610e41c16d2f2))
+
+## [5.5.0](https://github.com/box/box-ios-sdk/compare/v5.4.2...v5.5.0) (2023-08-08)
+
+
+### New Features and Enhancements
+
+* Add missing values in `SignRequestSignerInputContentType` and `SignRequestStatus` along with the tests ([#907](https://github.com/box/box-ios-sdk/issues/907)) ([56a8250](https://github.com/box/box-ios-sdk/commit/56a82500c0abe648825d8300979601a25f792c84))
+
+### Bug Fixes
+
+* Identify iPhone Simulator on Apple Silicon ([#902](https://github.com/box/box-ios-sdk/issues/902)) ([7731a7f](https://github.com/box/box-ios-sdk/commit/7731a7f434add74e163a76511fe1e2a3f26517f7))
+* Make code compatible with macOS. ([#900](https://github.com/box/box-ios-sdk/issues/900)) ([3b0016e](https://github.com/box/box-ios-sdk/commit/3b0016e44e674db0ea429273c03e5a29177372bf))
+* Remove use of deprecated string scanner API. ([#901](https://github.com/box/box-ios-sdk/issues/901)) ([af5f0e5](https://github.com/box/box-ios-sdk/commit/af5f0e52d184fbd27f56d972fb93b3e543547773))
+
+### [5.4.2](https://github.com/box/box-ios-sdk/compare/v5.4.1...v5.4.2) (2023-04-19)
+
+
+### Bug Fixes
+
+* An emoty string `nextMarker` should be treated as end-of-paging. ([#893](https://github.com/box/box-ios-sdk/issues/893)) ([49c17de](https://github.com/box/box-ios-sdk/commit/49c17de588fcffcd2d151ce9047ebc09965f80ce))
+
+### [5.4.1](https://github.com/box/box-ios-sdk/compare/v5.4.0...v5.4.1) (2023-02-24)
+
+
+### Bug Fixes
+
+* Fix `listAssignments` and `assign` methods in `RetentionPolicyModule` ([#886](https://github.com/box/box-ios-sdk/issues/886)) ([b668888](https://github.com/box/box-ios-sdk/commit/b668888f35136dd1239526b70cc31a10bdd04744))
+
+## [5.4.0](https://github.com/box/box-ios-sdk/compare/v5.3.0...v5.4.0) (2022-11-08)
+
+
+### New Features and Enhancements
+
+* Add `content_type` field to Sign Requests signer ([#871](https://github.com/box/box-ios-sdk/issues/871)) ([1ec5b01](https://github.com/box/box-ios-sdk/commit/1ec5b0149f01cd3a18f5cba39b77e01678655932))
+* Add `redirect_url` and `declined_redirect_url` to Sign Request ([#870](https://github.com/box/box-ios-sdk/issues/870)) ([f94d988](https://github.com/box/box-ios-sdk/commit/f94d98862d2fdb2603f4684b963d29d04e0fdb3d))
+* Add support for `sign` webhook triggers ([#875](https://github.com/box/box-ios-sdk/issues/875)) ([994bfaf](https://github.com/box/box-ios-sdk/commit/994bfaf3ead983f5014808f6c9e5ffe167ab8e42))
+* Added method to remove retention policy assignment ([#873](https://github.com/box/box-ios-sdk/issues/873)) ([c5f146c](https://github.com/box/box-ios-sdk/commit/c5f146c960bb1f940418975078d83fb63ff3bdec))
+* Added support for Modifiable Retention Policies ([#872](https://github.com/box/box-ios-sdk/issues/872)) ([e2b7a17](https://github.com/box/box-ios-sdk/commit/e2b7a178c6592c9f7d1e7ce691c215680b3f45d0))
+
+## [5.3.0](https://github.com/box/box-ios-sdk/compare/v5.2.1...v5.3.0) (2022-08-19)
+
+
+### New Features and Enhancements
+
+* add `version_number` to `FileVersion` ([#853](https://github.com/box/box-ios-sdk/issues/853)) ([ac81667](https://github.com/box/box-ios-sdk/commit/ac81667ea409cbbe3de9be0c316c630ec6fbc2f5))
+* Add support for async API in `FoldersModule` ([#851](https://github.com/box/box-ios-sdk/issues/851)) ([58b9dde](https://github.com/box/box-ios-sdk/commit/58b9dde412eddc76915c99b960702f4af95b62a4))
+* Add support for file request API ([#867](https://github.com/box/box-ios-sdk/issues/867)) ([ec7813e](https://github.com/box/box-ios-sdk/commit/ec7813e31706c08aaaeac75debdba8d7802786cb))
+* Add support for upload and delete Avatar API ([#863](https://github.com/box/box-ios-sdk/issues/863)) ([1e967f5](https://github.com/box/box-ios-sdk/commit/1e967f5a3eaafbeb894cf8289032ad8ce8664266))
+* Add support of Editable Shared Link ([#861](https://github.com/box/box-ios-sdk/issues/861)) ([bc6ea18](https://github.com/box/box-ios-sdk/commit/bc6ea18bf2e10bebeb62401a55001139f05c76df))
+* Expose `send()` method public in `BoxClient` ([#843](https://github.com/box/box-ios-sdk/issues/843)) ([23caaca](https://github.com/box/box-ios-sdk/commit/23caaca5b6fe8ec1b23470193bc011a62c66d49f))
+
+### Bug Fixes
+
+* Respect Content-Type coming from custom headers ([#841](https://github.com/box/box-ios-sdk/issues/841)) ([a7c69a7](https://github.com/box/box-ios-sdk/commit/a7c69a73c6142d4b82c718d2d311098dd2b70250))
+
+### [5.2.1](https://github.com/box/box-ios-sdk/compare/v5.2.0...v5.2.1) (2022-04-22)
+
+
+### Bug Fixes
+
+* Expose fields from `BoxResponse` for custom API calls ([#833](https://github.com/box/box-ios-sdk/issues/833)) ([bae1536](https://github.com/box/box-ios-sdk/commit/bae1536236a22de198281012b0ee43c84b0e3485))
+
+## [5.2.0](https://github.com/box/box-ios-sdk/compare/v5.1.0...v5.2.0) (2022-03-18)
+
+
+### New Features and Enhancements
+
+* Add `disposition_at` field to the `File` object ([#814](https://github.com/box/box-ios-sdk/issues/814)) ([3c90df0](https://github.com/box/box-ios-sdk/commit/3c90df038b9f490a9d38af85404fa1d6ddcd5d0d))
+* Add support for Client Credentials Grant authentication method ([#821](https://github.com/box/box-ios-sdk/issues/821)) ([f6d7542](https://github.com/box/box-ios-sdk/commit/f6d75424e8c0d91517e3ffb8df67f77ad3f2374b))
+
+## [5.1.0](https://github.com/box/box-ios-sdk/compare/v5.0.0...v5.1.0) (2022-01-17)
+
+
+### New Features and Enhancements
+
+* Allow to customize URL for the `OAuth2` authorization page ([#811](https://github.com/box/box-ios-sdk/issues/811)) ([1901d29](https://github.com/box/box-ios-sdk/commit/1901d296a2be4b0f2eef25eda06928aebc81de9a))
+* **Events:** Add support for `admin_logs_streaming` stream type ([#800](https://github.com/box/box-ios-sdk/issues/800)) ([0a3118e](https://github.com/box/box-ios-sdk/commit/0a3118ef95c2eb42b0080d0352784849e85eb422))
+* **RetentionPolicy:** New API for get files and file versions under retention ([#807](https://github.com/box/box-ios-sdk/issues/807)) ([38327f0](https://github.com/box/box-ios-sdk/commit/38327f09a92dba7827e1866940a643d624757762))
+* **SharedLink:** add support for `vanity_name` ([#799](https://github.com/box/box-ios-sdk/issues/799)) ([3ea6eb2](https://github.com/box/box-ios-sdk/commit/3ea6eb2a1c2b713fd0769e93a2dc4ee51da695fd))
+
+### Bug Fixes
+
+* **SignRequest:** Fix encoding `date_value` to `yyyy-mm-dd` format in `prefillTag` ([#806](https://github.com/box/box-ios-sdk/issues/806)) ([4f902a4](https://github.com/box/box-ios-sdk/commit/4f902a47482de55ec69b5522e6cf5affd653b4c8))
+
+## [5.0.0](https://github.com/box/box-ios-sdk/compare/v4.4.0...v5.0.0) (2021-10-28)
+
+
+### ⚠ BREAKING CHANGES
 
 - Update PagingIterator to return pages and simplify logic ([#737](https://github.com/box/box-ios-sdk/pull/737))
 - Remove insensitive language field `collaborationWhiteList` in BoxClient. Use `collaborationAllowList` instead. ([#790](https://github.com/box/box-ios-sdk/pull/790))
 
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Replace insensitive event types ([#785](https://github.com/box/box-ios-sdk/pull/785))
 - Add SignAPI support ([#792](https://github.com/box/box-ios-sdk/pull/792))
 
-## v4.4.0 [2021-04-20]
+## [4.4.0](https://github.com/box/box-ios-sdk/compare/v4.3.0...v4.4.0) (2021-04-20)
 
-__Breaking Changes:__
-
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Add support for search param to get shared link items ([#756](https://github.com/box/box-ios-sdk/pull/756))
 - Add support for folder lock functionality ([#759](https://github.com/box/box-ios-sdk/pull/759))
@@ -33,91 +265,79 @@ __New Features and Enhancements:__
 - Add support for stream upload of new file versions and add support for 'If-Match' header when uploading new file versions ([#766](https://github.com/box/box-ios-sdk/pull/766))
 - Add additional details field for `Event` model ([#770](https://github.com/box/box-ios-sdk/pull/770))
 
-__Bug Fixes:__
+### Bug Fixes
 
 - Pass only a scheme to iOS Authentication APIs ([#755](https://github.com/box/box-ios-sdk/pull/755))
 - Update `listEnterpriseGroups()` to use documented parameter for filtering by name ([#757](https://github.com/box/box-ios-sdk/pull/757))
 - Fix bug for OAuth where the callback is not called if token has been revoked ([#762](https://github.com/box/box-ios-sdk/pull/762))
 
-## v4.3.0 [2021-02-01]
+## [4.3.0](https://github.com/box/box-ios-sdk/compare/v4.2.0...v4.3.0) (2021-02-01)
 
-__Breaking Changes:__
-
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Add support for OAuth 2 custom callback URL ([#746](https://github.com/box/box-ios-sdk/pull/746))
 - Add support for zip download ([#749](https://github.com/box/box-ios-sdk/pull/749))
 
-__Bug Fixes:__
+### Bug Fixes
 
 - Update gems to patch kramdown vulnerability ([#742](https://github.com/box/box-ios-sdk/pull/742))
 - Update gems to patch activesupport vulnerability ([#745](https://github.com/box/box-ios-sdk/pull/745))
 
-## v4.2.0 [2020-11-16]
+## [4.2.0](https://github.com/box/box-ios-sdk/compare/v4.1.0...v4.2.0) (2020-11-16)
 
-__Breaking Changes:__
-
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Add error information to OAuth web session failures
 
-__Bug Fixes:__
+### Bug Fixes
 
 - Fix bug with creating collaboration
 - Fix bug with getting enterprise events
 
-## v4.1.0 [2020-05-15]
+## [4.1.0](https://github.com/box/box-ios-sdk/compare/v4.0.0...v4.1.0) (2020-05-15)
 
-__Breaking Changes:__
-
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Add ability to cancel uploads and downloads
 - Add support for the uploader display name field for Files and File Versions
 - Add support for the classification field for Files and Folders
 - Add path parameter sanitization
 
-__Bug Fixes:__
+### Bug Fixes
 
 - Fix logging of API responses
 
-## v4.0.0 [2020-02-13]
+## [4.0.0](https://github.com/box/box-ios-sdk/compare/v3.1.0...v4.0.0) (2020-02-13)
 
-__Breaking Changes:__
+### ⚠ BREAKING CHANGES
 
 - Change `status` field for task assignments from a String to an Enum
 - Remove macOS, tvOS, and watchOS support
 
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Make authentication session classes `OAuth2Session`, `SingleTokenSession`, and `DelegatedAuthSession` public
 
 
-## v3.1.0 [2020-01-09]
+## [3.1.0](https://github.com/box/box-ios-sdk/compare/v3.0.0...v3.1.0) (2020-01-09)
 
-__Breaking Changes:__
-
-
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Add shared link downscoping
 - Add closure parameter for progress of uploads and downloads
 - Add marker based pagination to list users endpoint
 
 
-## v3.0.0 [2019-11-18]
+## [3.0.0](https://github.com/box/box-ios-sdk/compare/v3.0.0-rc.3...v3.0.0) (2019-11-18)
 
-__Breaking Changes:__
-
-
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Added file specific icons for the Sample Apps.
 
 
-## v3.0.0-rc.3 [2019-11-14]
+## [3.0.0-rc.3](https://github.com/box/box-ios-sdk/compare/v3.0.0-rc.2...v3.0.0-rc.3) (2019-11-14)
 
-__Breaking Changes:__
+### ⚠ BREAKING CHANGES
 
 - For Module methods that returned a collection of objects, changed from returning a PaginationIterator to returning a PagingIterator in a completion.
 - Modules are now automatically instantiated with the BoxClient object and no longer allow the client app to instantiate them 
@@ -126,7 +346,7 @@ __Breaking Changes:__
 - Fixed bug with exponential backoff and changed SDK configuration item "retryAfterTime" to "retryBaseInterval"
 
 
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - RetentionPolicyModule methods made public 
 - Added additional supporting types 
@@ -135,21 +355,21 @@ __New Features and Enhancements:__
 - Updated Sample Apps to use new PagingIterator responses 
 
 
-## v3.0.0-rc.2 [2019-10-30]
+## [3.0.0-rc.2](https://github.com/box/box-ios-sdk/compare/v3.0.0-rc.1...v3.0.0-rc.2) (2019-10-30)
 
-__Breaking Changes:__
+### ⚠ BREAKING CHANGES
 
 - Changed SDK errors from customValue enum cases to specific enum cases
 
 
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Added Xcode 11 + iOS 13 support to Travis CI
 
 
-## v3.0.0-rc.1 [2019-10-18]
+## [3.0.0-rc.1](https://github.com/box/box-ios-sdk/compare/v3.0.0-alpha.3...v3.0.0-rc.1)  (2019-10-18)
 
-__Breaking Changes:__
+### ⚠ BREAKING CHANGES
 
 - Changed TaskAssignment.resolutionState from String to new AssignmentState enum type
 - Changed Group.groupType from String to new GroupType enum type
@@ -167,7 +387,7 @@ __Breaking Changes:__
 - Temporarily removed progress closure for uploads and downloads
 
 
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Added Xcode 11 support (SDK builds still target iOS 11.0)
 - Removed AlamoFire dependency
@@ -192,14 +412,14 @@ __New Features and Enhancements:__
 - Improved structure and usability of Sample Apps
 
 
-## v3.0.0-alpha.3 [2019-08-29]
+## [3.0.0-alpha.3](https://github.com/box/box-ios-sdk/compare/v3.0.0-alpha.2...v3.0.0-alpha.3) (2019-08-29)
 
-__Breaking Changes:__
+### ⚠ BREAKING CHANGES
 
 - Changed File Entry Container "entries" from optional to not optional
 
 
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Added support for Web Links
 - Added support for Trash endpoints
@@ -213,9 +433,9 @@ __New Features and Enhancements:__
 - Added KeychainTokenStore for OAuth2SampleApp
 
 
-## v3.0.0-alpha.2 [2019-08-08]
+## [3.0.0-alpha.2](https://github.com/box/box-ios-sdk/compare/v3.0.0-alpha.1...v3.0.0-alpha.2) (2019-08-08)
 
-__Breaking Changes:__
+### ⚠ BREAKING CHANGES
 
 - Moved some constants to different namespaces:
     * `Box.rootFolder` is now `BoxSDK.Constants.rootFolder`
@@ -237,13 +457,13 @@ __Breaking Changes:__
   `Folder`
 
 
-__New Features and Enhancements:__
+### New Features and Enhancements
 
 - Added support for [token downscoping](./docs/usage/authentication.md#token-exchange)
 - Added a `KeychainTokenStore` implementation to enable persisting authentication state on the Keychain
 - The SDK now automatically clears the token store after destroying a client and revoking its tokens
 
 
-## v3.0.0-alpha.1 [2019-07-25]
+## [3.0.0-alpha.1] (2019-07-25)
 
 Initial beta release :tada:

@@ -1,0 +1,38 @@
+name: integration-tests
+on:
+  pull_request:
+    branches:
+      - combined-sdk
+
+permissions:
+  contents: read
+
+jobs:
+  integration-tests:
+    runs-on: macos-15
+    strategy:
+      matrix:
+        destination: ['platform=iOS Simulator,OS=18.6,name=iPhone 16 Pro']
+    steps:
+      - name: Git - Checkout
+        uses: actions/checkout@v2
+      - name: Setup carthage dependencies
+        run: ./scripts/bootstrap
+        working-directory: BoxSDK
+      - name: All Tests
+        if: startsWith(github.head_ref, 'codegen-release')
+        run: |
+          echo "${INTEGRATION_TESTING_CONFIG}" > IntegrationTests/Resources/Configuration.json
+          set -o pipefail && xcodebuild -workspace BoxSDK.xcworkspace -scheme BoxSDKIntegrationTests-iOS -destination "${{ matrix.destination }}" -configuration Debug ENABLE_TESTABILITY=YES test
+        working-directory: BoxSDK
+        env:
+          INTEGRATION_TESTING_CONFIG: ${{secrets.INTEGRATION_TESTING_CONFIG}}
+      - name: Smoke Tests
+        if: "!startsWith(github.head_ref, 'codegen-release')"
+        run: |
+          echo "${INTEGRATION_TESTING_CONFIG}" > IntegrationTests/Resources/Configuration.json
+          set -o pipefail && xcodebuild -workspace BoxSDK.xcworkspace -scheme BoxSDKIntegrationTests-iOS -destination "${{ matrix.destination }}" -configuration Debug ENABLE_TESTABILITY=YES -only-testing:BoxSDKIntegrationTests-iOS/FileModuleIntegrationSpecs test
+        working-directory: BoxSDK
+        env:
+          INTEGRATION_TESTING_CONFIG: ${{secrets.INTEGRATION_TESTING_CONFIG}}
+

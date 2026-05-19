@@ -1,0 +1,206 @@
+# Configuration
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Retry Strategy](#retry-strategy)
+  - [Overview](#overview)
+  - [Default Configuration](#default-configuration)
+  - [Retry Decision Flow](#retry-decision-flow)
+  - [Exponential Backoff Algorithm](#exponential-backoff-algorithm)
+    - [Example Delays (with default settings)](#example-delays-with-default-settings)
+  - [Retry-After Header](#retry-after-header)
+  - [Network Exception Handling](#network-exception-handling)
+  - [Customizing Retry Parameters](#customizing-retry-parameters)
+  - [Custom Retry Strategy](#custom-retry-strategy)
+- [Timeouts](#timeouts)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Retry Strategy
+
+### Overview
+
+The SDK ships with a built-in retry strategy (`BoxRetryStrategy`) that conforms to the `RetryStrategy` protocol. The `BoxNetworkClient`, which serves as the default network client, uses this strategy to automatically retry failed API requests with exponential backoff.
+
+The retry strategy exposes two methods:
+
+- **`shouldRetry`** — Determines whether a failed request should be retried based on the HTTP status code, response headers, attempt count, and authentication state.
+- **`retryAfter`** — Computes the delay (in seconds) before the next retry attempt, using either the server-provided `Retry-After` header or an exponential backoff formula.
+
+### Default Configuration
+
+| Parameter                  | Default      | Description                                                                                                                                              |
+| -------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxAttempts`              | `5`          | Maximum number of retry attempts for HTTP error responses (status 4xx/5xx).                                                                              |
+| `retryBaseInterval`        | `1` (second) | Base interval used in the exponential backoff calculation.                                                                                               |
+| `retryRandomizationFactor` | `0.5`        | Jitter factor applied to the backoff delay. The actual delay is multiplied by a random value between `1 - factor` and `1 + factor`.                      |
+| `maxRetriesOnException`    | `2`          | Maximum number of retries for network-level exceptions (connection failures, timeouts). These are tracked by a separate counter from HTTP error retries. |
+
+### Retry Decision Flow
+
+The following diagram shows how `BoxRetryStrategy.shouldRetry` decides whether to retry a request:
+
+```
+                    shouldRetry(fetchOptions, fetchResponse, attemptNumber)
+                                        |
+                                        v
+                             +-----------------------+
+                             | status == 0           |     Yes
+                             | (network exception)?  |----------> attemptNumber <= maxRetriesOnException?
+                             +-----------------------+               |            |
+                                        | No                        Yes          No
+                                        v                            |            |
+                             +-----------------------+           [RETRY]      [NO RETRY]
+                             | attemptNumber >=      |
+                             | maxAttempts?          |
+                             +-----------------------+
+                                  |            |
+                                 Yes          No
+                                  |            |
+                             [NO RETRY]        v
+                             +-----------------------+
+                             | status == 202 AND     |     Yes
+                             | Retry-After header?   |----------> [RETRY]
+                             +-----------------------+
+                                        | No
+                                        v
+                             +-----------------------+
+                             | status >= 500         |     Yes
+                             | (server error)?       |----------> [RETRY]
+                             +-----------------------+
+                                        | No
+                                        v
+                             +-----------------------+
+                             | status == 429         |     Yes
+                             | (rate limited)?       |----------> [RETRY]
+                             +-----------------------+
+                                        | No
+                                        v
+                             +-----------------------+
+                             | status == 401 AND     |     Yes
+                             | auth available?       |----------> Refresh token, then [RETRY]
+                             +-----------------------+
+                                        | No
+                                        v
+                                   [NO RETRY]
+```
+
+### Exponential Backoff Algorithm
+
+When the response does not include a `Retry-After` header, the retry delay is computed using exponential backoff with randomized jitter:
+
+```
+delay = 2^attemptNumber * retryBaseInterval * random(1 - factor, 1 + factor)
+```
+
+Where:
+
+- `attemptNumber` is the current attempt (1-based)
+- `retryBaseInterval` defaults to `1` second
+- `factor` is `retryRandomizationFactor` (default `0.5`)
+- `random(min, max)` returns a uniformly distributed value in `[min, max]`
+
+#### Example Delays (with default settings)
+
+| Attempt | Base Delay | Min Delay (factor=0.5) | Max Delay (factor=0.5) |
+| ------- | ---------- | ---------------------- | ---------------------- |
+| 1       | 2s         | 1.0s                   | 3.0s                   |
+| 2       | 4s         | 2.0s                   | 6.0s                   |
+| 3       | 8s         | 4.0s                   | 12.0s                  |
+| 4       | 16s        | 8.0s                   | 24.0s                  |
+
+### Retry-After Header
+
+When the server includes a `Retry-After` header in the response, the SDK uses the header value directly as the delay in seconds instead of computing an exponential backoff delay. This applies to any retryable response that includes the header, including:
+
+- `202 Accepted` with `Retry-After` (long-running operations)
+- `429 Too Many Requests` with `Retry-After`
+- `5xx` server errors with `Retry-After`
+
+The header value is parsed as a floating-point number representing seconds.
+
+### Network Exception Handling
+
+Network-level failures (connection refused, DNS resolution errors, timeouts, TLS errors) are represented internally as responses with status `0`. These exceptions are tracked by a **separate counter** (`maxRetriesOnException`, default `2`) from the regular HTTP error retry counter (`maxAttempts`).
+
+This means:
+
+- Network exception retries are tracked independently from HTTP error retries, each with their own counter and backoff progression.
+- A request can fail up to `maxRetriesOnException` times due to network exceptions, but each exception retry also increments the overall attempt counter, so the total number of retries across both exception and HTTP error types is bounded by `maxAttempts`.
+
+### Customizing Retry Parameters
+
+You can customize all retry parameters by initializing `BoxRetryStrategy` with the desired values and passing it to `NetworkSession`:
+
+```swift
+let networkSession = NetworkSession(
+    retryStrategy: BoxRetryStrategy(
+        maxAttempts: 3,
+        retryBaseInterval: 2,
+        retryRandomizationFactor: 0.3,
+        maxRetriesOnException: 1
+    )
+)
+let auth = BoxDeveloperTokenAuth(token: "DEVELOPER_TOKEN")
+let client = BoxClient(auth: auth, networkSession: networkSession)
+```
+
+### Custom Retry Strategy
+
+You can implement your own retry strategy by conforming to the `RetryStrategy` protocol and providing `shouldRetry` and `retryAfter` methods:
+
+```swift
+public class CustomRetryStrategy: RetryStrategy {
+    public func shouldRetry(
+        fetchOptions: FetchOptions,
+        fetchResponse: FetchResponse,
+        attemptNumber: Int
+    ) async throws -> Bool {
+        return fetchResponse.status >= 500 && attemptNumber < 3
+    }
+
+    public func retryAfter(
+        fetchOptions: FetchOptions,
+        fetchResponse: FetchResponse,
+        attemptNumber: Int
+    ) -> Double {
+        return 1.0
+    }
+}
+
+let networkSession = NetworkSession(
+    retryStrategy: CustomRetryStrategy()
+)
+let auth = BoxDeveloperTokenAuth(token: "DEVELOPER_TOKEN")
+let client = BoxClient(auth: auth, networkSession: networkSession)
+```
+
+## Timeouts
+
+You can configure request timeouts with `TimeoutConfig` on `NetworkSession`.
+Swift SDK supports separate values for request and resource timeouts, both in milliseconds.
+
+```swift
+let timeoutConfig = TimeoutConfig(
+    timeoutIntervalForRequestMs: 10000,
+    timeoutIntervalForResourceMs: 60000
+)
+
+let networkSession: NetworkSession = NetworkSession(
+    timeoutConfig: timeoutConfig
+)
+let auth: BoxDeveloperTokenAuth = BoxDeveloperTokenAuth(token: "DEVELOPER_TOKEN")
+let client: BoxClient = BoxClient(auth: auth, networkSession: networkSession)
+```
+
+How timeout handling works:
+
+- `timeoutIntervalForRequestMs` maps to `URLSessionConfiguration.timeoutIntervalForRequest` and controls how long a request can wait for data before timing out.
+- `timeoutIntervalForResourceMs` maps to `URLSessionConfiguration.timeoutIntervalForResource` and controls the maximum total time allowed for the full resource transfer.
+- Timeout values are configured in milliseconds and converted to seconds for `URLSessionConfiguration`.
+- If a timeout value is not provided, the current `URLSessionConfiguration` value is kept.
+- If timeout config is not provided, the SDK uses the `URLSessionConfiguration` default timeout settings: `timeoutIntervalForRequest` of 60 seconds and `timeoutIntervalForResource` of 7 days (604800 seconds).
+- Timeout failures are treated as network exceptions, and retry behavior is controlled by the configured retry strategy.
+- If retries are exhausted after timeout failures, the SDK throws `BoxSDKError`.
+- Timeout applies to a single HTTP request attempt to the Box API (not the total time across all retries).
