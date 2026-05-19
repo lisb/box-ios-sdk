@@ -9,7 +9,7 @@
 /// Describes authentication errors.
 public class BoxAPIAuthError: BoxAPIError {
 
-    init(message: BoxSDKErrorEnum = "Error authenticating with the Box API", request: BoxRequest? = nil, response: BoxResponse? = nil, error: Error? = nil) {
+    public init(message: BoxSDKErrorEnum = "Error authenticating with the Box API", request: BoxRequest? = nil, response: BoxResponse? = nil, error: Error? = nil) {
         super.init(message: message, request: request, response: response, error: error)
         errorType = "BoxAPIAuthError"
     }

@@ -8,10 +8,13 @@
 
 import Foundation
 
-class MemoryTokenStore: TokenStore {
+public class MemoryTokenStore: TokenStore {
     var tokenInfo: TokenInfo?
+    
+    public init() {
+    }
 
-    func read(completion: @escaping (Result<TokenInfo, Error>) -> Void) {
+    public func read(completion: @escaping (Result<TokenInfo, Error>) -> Void) {
         guard let token = tokenInfo else {
             completion(.failure(BoxAPIAuthError(message: .tokenRetrieval)))
             return
@@ -19,12 +22,12 @@ class MemoryTokenStore: TokenStore {
         completion(.success(token))
     }
 
-    func write(tokenInfo: TokenInfo, completion: @escaping (Result<Void, Error>) -> Void) {
+    public func write(tokenInfo: TokenInfo, completion: @escaping (Result<Void, Error>) -> Void) {
         self.tokenInfo = tokenInfo
         completion(.success(()))
     }
 
-    func clear(completion: @escaping (Result<Void, Error>) -> Void) {
+    public func clear(completion: @escaping (Result<Void, Error>) -> Void) {
         tokenInfo = nil
         completion(.success(()))
     }

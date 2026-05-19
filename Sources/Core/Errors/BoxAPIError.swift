@@ -15,7 +15,7 @@ public class BoxAPIError: BoxSDKError {
     /// The components that make up a description of a BoxResponse
     public var response: BoxResponseDescription?
 
-    init(message: BoxSDKErrorEnum? = nil, request: BoxRequest? = nil, response: BoxResponse? = nil, error: Error? = nil) {
+    public init(message: BoxSDKErrorEnum? = nil, request: BoxRequest? = nil, response: BoxResponse? = nil, error: Error? = nil) {
         super.init(error: error)
         errorType = "BoxAPIError"
 

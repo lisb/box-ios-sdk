@@ -177,7 +177,9 @@ private extension BoxClient {
         case let .failure(error):
             if let apiError = error as? BoxAPIAuthError, apiError.message == .unauthorizedAccess {
                 if let tokenHandlingSession = session as? ExpiredTokenHandling {
-                    tokenHandlingSession.handleExpiredToken(completion: { _ in })
+                    tokenHandlingSession.handleExpiredToken(completion: { _ in 
+                        completion(.failure(apiError))
+                    })
                     return
                 }
             }

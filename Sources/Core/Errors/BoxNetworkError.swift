@@ -11,7 +11,7 @@ import Foundation
 /// Describes network related errors.
 public class BoxNetworkError: BoxSDKError {
 
-    override init(message: BoxSDKErrorEnum = "Error with the network", error: Error? = nil) {
+    override public init(message: BoxSDKErrorEnum = "Error with the network", error: Error? = nil) {
         super.init(message: message, error: error)
         errorType = "BoxNetworkError"
     }

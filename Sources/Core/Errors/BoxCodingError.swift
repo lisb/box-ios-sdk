@@ -10,7 +10,7 @@ import Foundation
 /// Describes encoding and decoding related errors.
 public class BoxCodingError: BoxSDKError {
 
-    override init(message: BoxSDKErrorEnum = "Error with encoding or decoding", error: Error? = nil) {
+    override public init(message: BoxSDKErrorEnum = "Error with encoding or decoding", error: Error? = nil) {
         super.init(message: message, error: error)
         errorType = "BoxCodingError"
     }

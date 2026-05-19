@@ -17,7 +17,7 @@ public class OAuth2Session: SessionProtocol, ExpiredTokenHandling {
 
     let authDispatcher = AuthModuleDispatcher()
 
-    init(authModule: AuthModule, tokenInfo: TokenInfo, tokenStore: TokenStore, configuration: BoxSDKConfiguration) {
+    public init(authModule: AuthModule, tokenInfo: TokenInfo, tokenStore: TokenStore, configuration: BoxSDKConfiguration) {
         self.authModule = authModule
         self.tokenInfo = tokenInfo
         self.configuration = configuration
