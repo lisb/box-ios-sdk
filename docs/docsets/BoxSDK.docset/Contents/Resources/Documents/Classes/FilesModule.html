@@ -17,18 +17,18 @@
     <a title="FilesModule Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">BoxSDK 4.3.0 Docs</a> (100% documented)</p>
-        <p class="header-right">
+        <p><a href="../index.html">BoxSDK 5.0.0 Docs</a> (100% documented)</p>
+        <div class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
           </form>
-        </p>
+        </div>
       </div>
     </header>
     <div class="content-wrapper">
       <p id="breadcrumbs">
         <a href="../index.html">BoxSDK Reference</a>
-        <img id="carat" src="../img/carat.png" />
+        <img id="carat" src="../img/carat.png" alt=""/>
         FilesModule Class Reference
       </p>
     </div>
@@ -105,13 +105,13 @@
                 <a href="../Classes/Collaboration/TwoFactorAuthenticationRequirement.html">– TwoFactorAuthenticationRequirement</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/CollaborationWhitelistEntry.html">CollaborationWhitelistEntry</a>
+                <a href="../Classes/CollaborationAllowlistEntry.html">CollaborationAllowlistEntry</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/CollaborationWhitelistExemptTarget.html">CollaborationWhitelistExemptTarget</a>
+                <a href="../Classes/CollaborationAllowlistExemptTarget.html">CollaborationAllowlistExemptTarget</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/CollaborationWhitelistModule.html">CollaborationWhitelistModule</a>
+                <a href="../Classes/CollaborationAllowlistModule.html">CollaborationAllowlistModule</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/CollaborationsModule.html">CollaborationsModule</a>
@@ -199,6 +199,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Folder/Permissions.html">– Permissions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FolderLock.html">FolderLock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FolderLock/LockedOperations.html">– LockedOperations</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/FolderUploadEmail.html">FolderUploadEmail</a>
@@ -318,6 +324,9 @@
                 <a href="../Classes/SearchModule.html">SearchModule</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/SearchResult.html">SearchResult</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/SharedItem.html">SharedItem</a>
               </li>
               <li class="nav-group-task">
@@ -331,6 +340,27 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SharedLink/Permissions.html">– Permissions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignRequest.html">SignRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignRequestPrefillTag.html">SignRequestPrefillTag</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignRequestSignFiles.html">SignRequestSignFiles</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignRequestSigner.html">SignRequestSigner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignRequestSignerDecision.html">SignRequestSignerDecision</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignRequestSignerInput.html">SignRequestSignerInput</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignRequestsModule.html">SignRequestsModule</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/SingleTokenSession.html">SingleTokenSession</a>
@@ -548,6 +578,18 @@
                 <a href="../Enums/SharedLinkAccess.html">SharedLinkAccess</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/SignRequestSignerDecisionType.html">SignRequestSignerDecisionType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SignRequestSignerInputType.html">SignRequestSignerInputType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SignRequestSignerRole.html">SignRequestSignerRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SignRequestStatus.html">SignRequestStatus</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/StreamPosition.html">StreamPosition</a>
               </li>
               <li class="nav-group-task">
@@ -705,6 +747,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/SharedLinkData.html">SharedLinkData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SignRequestCreateParameters.html">SignRequestCreateParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SignRequestCreateParentFolder.html">SignRequestCreateParentFolder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SignRequestCreateSigner.html">SignRequestCreateSigner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SignRequestCreateSourceFile.html">SignRequestCreateSourceFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SignRequestCreateSourceFileVersion.html">SignRequestCreateSourceFileVersion</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/UploadPartDescription.html">UploadPartDescription</a>
@@ -1172,9 +1229,9 @@ name collision occurs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6BoxSDK11FilesModuleC13uploadVersion7forFile4name17contentModifiedAt4data8progress21performPreflightCheck10completionAA0A10UploadTaskCSS_SSSgAN10Foundation4DataVySo10NSProgressCcSbys6ResultOyAA0H0CAA0A8SDKErrorCGctF"></a>
-                    <a name="//apple_ref/swift/Method/uploadVersion(forFile:name:contentModifiedAt:data:progress:performPreflightCheck:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6BoxSDK11FilesModuleC13uploadVersion7forFile4name17contentModifiedAt4data8progress21performPreflightCheck10completionAA0A10UploadTaskCSS_SSSgAN10Foundation4DataVySo10NSProgressCcSbys6ResultOyAA0H0CAA0A8SDKErrorCGctF">uploadVersion(forFile:<wbr>name:<wbr>contentModifiedAt:<wbr>data:<wbr>progress:<wbr>performPreflightCheck:<wbr>completion:<wbr>)</a>
+                    <a name="/s:6BoxSDK11FilesModuleC13uploadVersion7forFile4name17contentModifiedAt4data7ifMatch8progress21performPreflightCheck10completionAA0A10UploadTaskCSS_SSSgAO10Foundation4DataVAOySo10NSProgressCcSbys6ResultOyAA0H0CAA0A8SDKErrorCGctF"></a>
+                    <a name="//apple_ref/swift/Method/uploadVersion(forFile:name:contentModifiedAt:data:ifMatch:progress:performPreflightCheck:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC13uploadVersion7forFile4name17contentModifiedAt4data7ifMatch8progress21performPreflightCheck10completionAA0A10UploadTaskCSS_SSSgAO10Foundation4DataVAOySo10NSProgressCcSbys6ResultOyAA0H0CAA0A8SDKErrorCGctF">uploadVersion(forFile:<wbr>name:<wbr>contentModifiedAt:<wbr>data:<wbr>ifMatch:<wbr>progress:<wbr>performPreflightCheck:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1195,6 +1252,7 @@ name collision occurs.</p>
     <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">contentModifiedAt</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span>
+    <span class="nv">ifMatch</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">progress</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Progress</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">},</span>
     <span class="nv">performPreflightCheck</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/File.html">File</a></span><span class="o">&gt;</span>
@@ -1229,6 +1287,18 @@ name collision occurs.</p>
                                   <p>The name of the file. Box supports file names of 255 characters or
 less. Names containing non-printable ASCII characters, &ldquo;/&rdquo; or &ldquo;\&rdquo;, names with trailing
 spaces, and the special names “.” and “..” are also not allowed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>ifMatch</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>etag</code> of the old file version. Ensures that the file hasn&rsquo;t been updated since getting the etag, which could indicate conflicting edits.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1376,6 +1446,154 @@ such as size and name won&rsquo;t cause an upload error.</p>
                                 <div>
                                   <p>Returns a standard file object or an error if the parentId is invalid or if a file
 name collision occurs.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>BoxUploadTask</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6BoxSDK11FilesModuleC19streamUploadVersion0E08fileSize7forFile4name17contentModifiedAt7ifMatch8progress21performPreflightCheck10completionAA0aF4TaskCSo13NSInputStreamC_SiS3SSgARySo10NSProgressCcSbys6ResultOyAA0K0CAA0A8SDKErrorCGctF"></a>
+                    <a name="//apple_ref/swift/Method/streamUploadVersion(stream:fileSize:forFile:name:contentModifiedAt:ifMatch:progress:performPreflightCheck:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC19streamUploadVersion0E08fileSize7forFile4name17contentModifiedAt7ifMatch8progress21performPreflightCheck10completionAA0aF4TaskCSo13NSInputStreamC_SiS3SSgARySo10NSProgressCcSbys6ResultOyAA0K0CAA0A8SDKErrorCGctF">streamUploadVersion(stream:<wbr>fileSize:<wbr>forFile:<wbr>name:<wbr>contentModifiedAt:<wbr>ifMatch:<wbr>progress:<wbr>performPreflightCheck:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Upload a new version of an existing file.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">streamUploadVersion</span><span class="p">(</span>
+    <span class="nv">stream</span><span class="p">:</span> <span class="kt">InputStream</span><span class="p">,</span>
+    <span class="nv">fileSize</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
+    <span class="n">forFile</span> <span class="nv">fileId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">contentModifiedAt</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">ifMatch</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">progress</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Progress</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">},</span>
+    <span class="nv">performPreflightCheck</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/File.html">File</a></span><span class="o">&gt;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes.html#/s:6BoxSDK0A10UploadTaskC">BoxUploadTask</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stream</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An InputStream of data for the file to be uploaded.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>fileSize</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The length of the InputStream</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forFile</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the file</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the file. Box supports file names of 255 characters or
+less. Names containing non-printable ASCII characters, &ldquo;/&rdquo; or &ldquo;\&rdquo;, names with trailing
+spaces, and the special names “.” and “..” are also not allowed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>contentModifiedAt</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time the file was last modified. Defaults to time of upload.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>ifMatch</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>etag</code> of the file version. Ensures this item hasn&rsquo;t recently changed before making changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>performPreflightCheck</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Defines whether to perform preflight request first check to see whether uploaded file parameters
+such as size and name won&rsquo;t cause an upload error.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Returns a standard file object or an error.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1964,9 +2182,9 @@ attributes back; otherwise, the mini format is returned for each item by default
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6BoxSDK11FilesModuleC18listCollaborations7forFile6marker5limit6fields10completionySS_SSSgSiSgSaySSGSgys6ResultOyAA14PagingIteratorCyAA13CollaborationCGAA0A8SDKErrorCGctF"></a>
-                    <a name="//apple_ref/swift/Method/listCollaborations(forFile:marker:limit:fields:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6BoxSDK11FilesModuleC18listCollaborations7forFile6marker5limit6fields10completionySS_SSSgSiSgSaySSGSgys6ResultOyAA14PagingIteratorCyAA13CollaborationCGAA0A8SDKErrorCGctF">listCollaborations(forFile:<wbr>marker:<wbr>limit:<wbr>fields:<wbr>completion:<wbr>)</a>
+                    <a name="/s:6BoxSDK11FilesModuleC18listCollaborations7forFile6marker5limit6fieldsAA14PagingIteratorCyAA13CollaborationCGSS_SSSgSiSgSaySSGSgtF"></a>
+                    <a name="//apple_ref/swift/Method/listCollaborations(forFile:marker:limit:fields:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC18listCollaborations7forFile6marker5limit6fieldsAA14PagingIteratorCyAA13CollaborationCGSS_SSSgSiSgSaySSGSgtF">listCollaborations(forFile:<wbr>marker:<wbr>limit:<wbr>fields:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1985,9 +2203,8 @@ attributes back; otherwise, the mini format is returned for each item by default
     <span class="n">forFile</span> <span class="nv">fileId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">marker</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Collaboration.html">Collaboration</a></span><span class="o">&gt;&gt;</span>
-<span class="p">)</span></code></pre>
+    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Collaboration.html">Collaboration</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2057,9 +2274,9 @@ attributes back; otherwise, the mini format is returned for each item by default
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6BoxSDK11FilesModuleC12listComments7forFile6offset5limit6fields10completionySS_SiSgAJSaySSGSgys6ResultOyAA14PagingIteratorCyAA7CommentCGAA0A8SDKErrorCGctF"></a>
-                    <a name="//apple_ref/swift/Method/listComments(forFile:offset:limit:fields:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6BoxSDK11FilesModuleC12listComments7forFile6offset5limit6fields10completionySS_SiSgAJSaySSGSgys6ResultOyAA14PagingIteratorCyAA7CommentCGAA0A8SDKErrorCGctF">listComments(forFile:<wbr>offset:<wbr>limit:<wbr>fields:<wbr>completion:<wbr>)</a>
+                    <a name="/s:6BoxSDK11FilesModuleC12listComments7forFile6offset5limit6fieldsAA14PagingIteratorCyAA7CommentCGSS_SiSgANSaySSGSgtF"></a>
+                    <a name="//apple_ref/swift/Method/listComments(forFile:offset:limit:fields:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC12listComments7forFile6offset5limit6fieldsAA14PagingIteratorCyAA7CommentCGSS_SiSgANSaySSGSgtF">listComments(forFile:<wbr>offset:<wbr>limit:<wbr>fields:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2078,9 +2295,8 @@ attributes back; otherwise, the mini format is returned for each item by default
     <span class="n">forFile</span> <span class="nv">fileId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">offset</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span>
     <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?,</span>
-    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Comment.html">Comment</a></span><span class="o">&gt;&gt;</span>
-<span class="p">)</span></code></pre>
+    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Comment.html">Comment</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2154,9 +2370,9 @@ attributes back; otherwise, the mini format is returned for each item by default
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6BoxSDK11FilesModuleC9listTasks7forFile6fields10completionySS_SaySSGSgys6ResultOyAA14PagingIteratorCyAA4TaskCGAA0A8SDKErrorCGctF"></a>
-                    <a name="//apple_ref/swift/Method/listTasks(forFile:fields:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6BoxSDK11FilesModuleC9listTasks7forFile6fields10completionySS_SaySSGSgys6ResultOyAA14PagingIteratorCyAA4TaskCGAA0A8SDKErrorCGctF">listTasks(forFile:<wbr>fields:<wbr>completion:<wbr>)</a>
+                    <a name="/s:6BoxSDK11FilesModuleC9listTasks7forFile6fieldsAA14PagingIteratorCyAA4TaskCGSS_SaySSGSgtF"></a>
+                    <a name="//apple_ref/swift/Method/listTasks(forFile:fields:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC9listTasks7forFile6fieldsAA14PagingIteratorCyAA4TaskCGSS_SaySSGSgtF">listTasks(forFile:<wbr>fields:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2173,9 +2389,8 @@ attributes back; otherwise, the mini format is returned for each item by default
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">listTasks</span><span class="p">(</span>
     <span class="n">forFile</span> <span class="nv">fileId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Task.html">Task</a></span><span class="o">&gt;&gt;</span>
-<span class="p">)</span></code></pre>
+    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Task.html">Task</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2670,9 +2885,9 @@ Depending on the enterprise settings for this user, the item will either be actu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6BoxSDK11FilesModuleC12listVersions6fileId6offset5limit6fields10completionySS_SiSgAJSaySSGSgys6ResultOyAA14PagingIteratorCyAA11FileVersionCGAA0A8SDKErrorCGctF"></a>
-                    <a name="//apple_ref/swift/Method/listVersions(fileId:offset:limit:fields:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6BoxSDK11FilesModuleC12listVersions6fileId6offset5limit6fields10completionySS_SiSgAJSaySSGSgys6ResultOyAA14PagingIteratorCyAA11FileVersionCGAA0A8SDKErrorCGctF">listVersions(fileId:<wbr>offset:<wbr>limit:<wbr>fields:<wbr>completion:<wbr>)</a>
+                    <a name="/s:6BoxSDK11FilesModuleC12listVersions6fileId6offset5limit6fieldsAA14PagingIteratorCyAA11FileVersionCGSS_SiSgANSaySSGSgtF"></a>
+                    <a name="//apple_ref/swift/Method/listVersions(fileId:offset:limit:fields:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC12listVersions6fileId6offset5limit6fieldsAA14PagingIteratorCyAA11FileVersionCGSS_SiSgANSaySSGSgtF">listVersions(fileId:<wbr>offset:<wbr>limit:<wbr>fields:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2691,9 +2906,8 @@ Depending on the enterprise settings for this user, the item will either be actu
     <span class="nv">fileId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">offset</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/FileVersion.html">FileVersion</a></span><span class="o">&gt;&gt;</span>
-<span class="p">)</span></code></pre>
+    <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/FileVersion.html">FileVersion</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -3803,9 +4017,9 @@ for example when folder with specified ID doesn&rsquo;t exist</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6BoxSDK11FilesModuleC22listUploadSessionParts9sessionId6offset5limit10completionySS_SiSgAIys6ResultOyAA14PagingIteratorCyAA0F15PartDescriptionVGAA0A8SDKErrorCGctF"></a>
-                    <a name="//apple_ref/swift/Method/listUploadSessionParts(sessionId:offset:limit:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6BoxSDK11FilesModuleC22listUploadSessionParts9sessionId6offset5limit10completionySS_SiSgAIys6ResultOyAA14PagingIteratorCyAA0F15PartDescriptionVGAA0A8SDKErrorCGctF">listUploadSessionParts(sessionId:<wbr>offset:<wbr>limit:<wbr>completion:<wbr>)</a>
+                    <a name="/s:6BoxSDK11FilesModuleC22listUploadSessionParts9sessionId6offset5limitAA14PagingIteratorCyAA0F15PartDescriptionVGSS_SiSgAMtF"></a>
+                    <a name="//apple_ref/swift/Method/listUploadSessionParts(sessionId:offset:limit:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC22listUploadSessionParts9sessionId6offset5limitAA14PagingIteratorCyAA0F15PartDescriptionVGSS_SiSgAMtF">listUploadSessionParts(sessionId:<wbr>offset:<wbr>limit:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3823,9 +4037,8 @@ for example when folder with specified ID doesn&rsquo;t exist</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">listUploadSessionParts</span><span class="p">(</span>
     <span class="nv">sessionId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">offset</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Structs/UploadPartDescription.html">UploadPartDescription</a></span><span class="o">&gt;&gt;</span>
-<span class="p">)</span></code></pre>
+    <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Structs/UploadPartDescription.html">UploadPartDescription</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -4513,9 +4726,9 @@ See <a href="https://developer.box.com/reference#representations">representation
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6BoxSDK11FilesModuleC21listVersionRetentions6fileId0hfI006policyI017dispositionAction0K6Before0K5After5limit6marker10completionySSSg_A2nA011DispositionL0OSg10Foundation4DateVSgAUSiSgANys6ResultOyAA14PagingIteratorCyAA04FileF9RetentionCGAA0A8SDKErrorCGctF"></a>
-                    <a name="//apple_ref/swift/Method/listVersionRetentions(fileId:fileVersionId:policyId:dispositionAction:dispositionBefore:dispositionAfter:limit:marker:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6BoxSDK11FilesModuleC21listVersionRetentions6fileId0hfI006policyI017dispositionAction0K6Before0K5After5limit6marker10completionySSSg_A2nA011DispositionL0OSg10Foundation4DateVSgAUSiSgANys6ResultOyAA14PagingIteratorCyAA04FileF9RetentionCGAA0A8SDKErrorCGctF">listVersionRetentions(fileId:<wbr>fileVersionId:<wbr>policyId:<wbr>dispositionAction:<wbr>dispositionBefore:<wbr>dispositionAfter:<wbr>limit:<wbr>marker:<wbr>completion:<wbr>)</a>
+                    <a name="/s:6BoxSDK11FilesModuleC21listVersionRetentions6fileId0hfI006policyI017dispositionAction0K6Before0K5After5limit6markerAA14PagingIteratorCyAA04FileF9RetentionCGSSSg_A2rA011DispositionL0OSg10Foundation4DateVSgAYSiSgARtF"></a>
+                    <a name="//apple_ref/swift/Method/listVersionRetentions(fileId:fileVersionId:policyId:dispositionAction:dispositionBefore:dispositionAfter:limit:marker:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6BoxSDK11FilesModuleC21listVersionRetentions6fileId0hfI006policyI017dispositionAction0K6Before0K5After5limit6markerAA14PagingIteratorCyAA04FileF9RetentionCGSSSg_A2rA011DispositionL0OSg10Foundation4DateVSgAYSiSgARtF">listVersionRetentions(fileId:<wbr>fileVersionId:<wbr>policyId:<wbr>dispositionAction:<wbr>dispositionBefore:<wbr>dispositionAfter:<wbr>limit:<wbr>marker:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4538,9 +4751,8 @@ See <a href="https://developer.box.com/reference#representations">representation
     <span class="nv">dispositionBefore</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">dispositionAfter</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">marker</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:6BoxSDK8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/FileVersionRetention.html">FileVersionRetention</a></span><span class="o">&gt;&gt;</span>
-<span class="p">)</span></code></pre>
+    <span class="nv">marker</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/PagingIterator.html">PagingIterator</a></span><span class="o">&lt;</span><span class="kt"><a href="../Classes/FileVersionRetention.html">FileVersionRetention</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -4660,11 +4872,10 @@ If optional parameters are given, only the file version retentions that match th
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/box/box-ios-sdk" target="_blank" rel="external">Box</a>. All rights reserved. (Last updated: 2021-02-01)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/box/box-ios-sdk" target="_blank" rel="external noopener">Box</a>. All rights reserved. (Last updated: 2021-10-28)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
   </body>
-</div>
 </html>

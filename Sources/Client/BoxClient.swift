@@ -23,8 +23,8 @@ public class BoxClient {
     public private(set) lazy var collections = CollectionsModule(boxClient: self)
     /// Provides collaborations functionality.
     public private(set) lazy var collaborations = CollaborationsModule(boxClient: self)
-    /// Provides collaborations whitelist functionality.
-    public private(set) lazy var collaborationWhiteList = CollaborationWhitelistModule(boxClient: self)
+    /// Provides collaborations whitelist functionality
+    public private(set) lazy var collaborationAllowList = CollaborationAllowlistModule(boxClient: self)
     /// Metadata management.
     public private(set) lazy var metadata = MetadataModule(boxClient: self)
     /// Provides [Events](../Structs/Events.html) management.
@@ -49,6 +49,8 @@ public class BoxClient {
     public private(set) lazy var legalHolds = LegalHoldsModule(boxClient: self)
     /// Storage Policies management
     public private(set) lazy var storagePolicies = StoragePoliciesModule(boxClient: self)
+    /// Provides sign requests functionality.
+    public private(set) lazy var signRequests = SignRequestsModule(boxClient: self)
 
     /// Provides network communication with the Box APIs.
     private var networkAgent: NetworkAgentProtocol
@@ -177,9 +179,7 @@ private extension BoxClient {
         case let .failure(error):
             if let apiError = error as? BoxAPIAuthError, apiError.message == .unauthorizedAccess {
                 if let tokenHandlingSession = session as? ExpiredTokenHandling {
-                    tokenHandlingSession.handleExpiredToken(completion: { _ in 
-                        completion(.failure(apiError))
-                    })
+                    tokenHandlingSession.handleExpiredToken(completion: { _ in completion(.failure(error)) })
                     return
                 }
             }

@@ -1,6 +1,44 @@
 Changelog
 =========
 
+## Next Release
+
+__Breaking Changes:__
+
+__New Features and Enhancements:__
+
+__Bug Fixes:__
+
+## v5.0.0 [2021-10-28]
+
+__Breaking Changes:__
+
+- Update PagingIterator to return pages and simplify logic ([#737](https://github.com/box/box-ios-sdk/pull/737))
+- Remove insensitive language field `collaborationWhiteList` in BoxClient. Use `collaborationAllowList` instead. ([#790](https://github.com/box/box-ios-sdk/pull/790))
+
+__New Features and Enhancements:__
+
+- Replace insensitive event types ([#785](https://github.com/box/box-ios-sdk/pull/785))
+- Add SignAPI support ([#792](https://github.com/box/box-ios-sdk/pull/792))
+
+## v4.4.0 [2021-04-20]
+
+__Breaking Changes:__
+
+__New Features and Enhancements:__
+
+- Add support for search param to get shared link items ([#756](https://github.com/box/box-ios-sdk/pull/756))
+- Add support for folder lock functionality ([#759](https://github.com/box/box-ios-sdk/pull/759))
+- Add support for copyInstanceOnItemCopy field for metadata templates ([#763](https://github.com/box/box-ios-sdk/pull/763))
+- Add support for stream upload of new file versions and add support for 'If-Match' header when uploading new file versions ([#766](https://github.com/box/box-ios-sdk/pull/766))
+- Add additional details field for `Event` model ([#770](https://github.com/box/box-ios-sdk/pull/770))
+
+__Bug Fixes:__
+
+- Pass only a scheme to iOS Authentication APIs ([#755](https://github.com/box/box-ios-sdk/pull/755))
+- Update `listEnterpriseGroups()` to use documented parameter for filtering by name ([#757](https://github.com/box/box-ios-sdk/pull/757))
+- Fix bug for OAuth where the callback is not called if token has been revoked ([#762](https://github.com/box/box-ios-sdk/pull/762))
+
 ## v4.3.0 [2021-02-01]
 
 __Breaking Changes:__

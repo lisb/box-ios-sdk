@@ -37,7 +37,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.getTemplateByKey(scope: "enterprise", templateKey: "productInfo") { result in
                             switch result {
                             case let .success(template):
@@ -79,7 +79,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.getTemplateById(id: "f7a9891f") { result in
                             switch result {
                             case let .success(template):
@@ -114,14 +114,35 @@ class MetadataModuleSpecs: QuickSpec {
 
             describe("createTemplate()") {
                 it("should make API call to create metadata template and produce file model when API call succeeds") {
-                    stub(condition: isHost("api.box.com") && isPath("/2.0/metadata_templates/schema") && isMethodPOST()) { _ in
+                    stub(
+                        condition: isHost("api.box.com") &&
+                            isPath("/2.0/metadata_templates/schema") &&
+                            isMethodPOST() &&
+                            hasJsonBody([
+                                "scope": "enterprise_490685",
+                                "templateKey": "customer",
+                                "displayName": "Customer",
+                                "hidden": false,
+                                "fields": [
+                                    ["type": "string", "key": "customerTeam", "displayName": "Customer team", "hidden": false],
+                                    ["type": "multiSelect", "hidden": false, "options": [
+                                        ["key": "FY11"],
+                                        ["key": "FY12"],
+                                        ["key": "FY13"],
+                                        ["key": "FY14"],
+                                        ["key": "FY15"]
+                                    ],
+                                    "key": "fy", "displayName": "FY"]
+                                ]
+                            ])
+                    ) { _ in
                         OHHTTPStubsResponse(
                             fileAtPath: OHPathForFile("CreateMetadataTemplate.json", type(of: self))!,
                             statusCode: 201, headers: ["Content-Type": "application/json"]
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         let options: [[String: String]] = [
                             ["key": "FY11"],
                             ["key": "FY12"],
@@ -187,6 +208,67 @@ class MetadataModuleSpecs: QuickSpec {
                         }
                     }
                 }
+
+                it("should make API call to create metadata template with copyInstanceOnItemCopy and produce file model when API call succeeds") {
+                    stub(
+                        condition: isHost("api.box.com") &&
+                            isPath("/2.0/metadata_templates/schema") &&
+                            isMethodPOST() &&
+                            hasJsonBody([
+                                "scope": "enterprise_490685",
+                                "templateKey": "customer",
+                                "displayName": "Customer",
+                                "hidden": false,
+                                "copyInstanceOnItemCopy": true,
+                                "fields": [
+                                    ["type": "string", "key": "customerTeam", "displayName": "Customer team", "hidden": false]
+                                ]
+                            ])
+                    ) { _ in
+                        OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("CreateMetadataTemplate2.json", type(of: self))!,
+                            statusCode: 201, headers: ["Content-Type": "application/json"]
+                        )
+                    }
+
+                    waitUntil(timeout: .seconds(10)) { done in
+                        self.sut.metadata.createTemplate(
+                            scope: "enterprise_490685",
+                            templateKey: "customer",
+                            displayName: "Customer",
+                            hidden: false,
+                            copyInstanceOnItemCopy: true,
+                            fields: [
+                                MetadataField(id: nil, type: "string", key: "customerTeam", displayName: "Customer team", options: nil, hidden: false)
+                            ]
+                        ) { result in
+                            switch result {
+                            case let .success(template):
+                                expect(template).toNot(beNil())
+                                expect(template.templateKey).to(equal("customer"))
+                                expect(template.scope).to(equal("enterprise_490685"))
+                                expect(template.displayName).to(equal("Customer"))
+                                expect(template.copyInstanceOnItemCopy).to(equal(true))
+
+                                guard let firstField = template.fields?[0] else {
+                                    fail()
+                                    done()
+                                    return
+                                }
+
+                                expect(firstField).toNot(beNil())
+                                expect(firstField.type).to(equal("string"))
+                                expect(firstField.key).to(equal("customerTeam"))
+                                expect(firstField.displayName).to(equal("Customer team"))
+                                expect(firstField.hidden).to(equal(false))
+
+                            case let .failure(error):
+                                fail("Expected call to createTemplate to succeed, but instead got \(error)")
+                            }
+                            done()
+                        }
+                    }
+                }
             }
 
             describe("updateTemplate()") {
@@ -198,7 +280,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.updateTemplate(
                             scope: "enterprise_490685",
                             templateKey: "customer",
@@ -261,7 +343,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.deleteTemplate(
                             scope: "enterprise",
                             templateKey: "vendorContract"
@@ -287,28 +369,22 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
-                        self.sut.metadata.listEnterpriseTemplates(scope: "enterprise") { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(firstTemplate):
-                                        expect(firstTemplate).to(beAKindOf(MetadataTemplate.self))
-                                        expect(firstTemplate.templateKey).to(equal("documentFlow"))
-                                        expect(firstTemplate.scope).to(equal("enterprise_12345"))
-                                        expect(firstTemplate.displayName).to(equal("Document Flow"))
-                                        expect(firstTemplate.hidden).to(equal(false))
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.metadata.listEnterpriseTemplates(scope: "enterprise")
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let firstTemplate = page.entries[0]
+                                expect(firstTemplate).to(beAKindOf(MetadataTemplate.self))
+                                expect(firstTemplate.templateKey).to(equal("documentFlow"))
+                                expect(firstTemplate.scope).to(equal("enterprise_12345"))
+                                expect(firstTemplate.displayName).to(equal("Document Flow"))
+                                expect(firstTemplate.hidden).to(equal(false))
 
-                                    case let .failure(error):
-                                        fail("Expected call to listEnterpriseTemplates to succeed, but instead got \(error)")
-                                    }
-                                    done()
-                                }
                             case let .failure(error):
                                 fail("Expected call to listEnterpriseTemplates to succeed, but instead got \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }
@@ -325,7 +401,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.list(forFileId: "5010739061") { result in
                             switch result {
                             case let .success(metadataObjects):
@@ -371,7 +447,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.get(forFileWithId: "5010739061", scope: "enterprise", templateKey: "marketingCollateral") { result in
                             switch result {
                             case let .success(metadataObject):
@@ -416,7 +492,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         let keys: [String: Any] = [
                             "audience1": "internal",
                             "documentType": "Q1 plans",
@@ -475,7 +551,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         let operations: [FileMetadataOperation] = [
                             .test(path: "/competitiveDocument", value: "no"),
                             .remove(path: "/competitiveDocument"),
@@ -536,7 +612,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.delete(
                             forFileWithId: "5010739061",
                             scope: "enterprise",
@@ -565,7 +641,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.list(forFolderId: "998951261") { result in
                             switch result {
                             case let .success(metadataObjects):
@@ -605,7 +681,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.get(forFolderWithId: "998951261", scope: "enterprise", templateKey: "documentFlow") { result in
                             switch result {
                             case let .success(metadataObject):
@@ -647,7 +723,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         let keys: [String: Any] = [
                             "currentDocumentStage": "initial vetting",
                             "needsApprovalFrom": "vetting team",
@@ -700,7 +776,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         let operations: [FolderMetadataOperation] = [
                             .test(path: "/currentDocumentStage", value: "initial vetting"),
                             .replace(path: "/currentDocumentStage", value: "prioritization"),
@@ -750,7 +826,7 @@ class MetadataModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.metadata.delete(
                             forFolderWithId: "998951261",
                             scope: "enterprise",

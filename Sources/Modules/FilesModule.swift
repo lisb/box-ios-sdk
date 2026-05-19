@@ -81,6 +81,8 @@ public enum ThumbnailExtension: BoxEnum {
 
 /// Provides [File](../Structs/File.html) management.
 public class FilesModule {
+    // swiftlint:disable:previous type_body_length
+
     /// Required for communicating with Box APIs.
     weak var boxClient: BoxClient!
     // swiftlint:disable:previous implicitly_unwrapped_optional
@@ -314,6 +316,7 @@ public class FilesModule {
     ///   - name: The name of the file. Box supports file names of 255 characters or
     ///     less. Names containing non-printable ASCII characters, "/" or "\", names with trailing
     ///     spaces, and the special names “.” and “..” are also not allowed.
+    ///   - ifMatch: The `etag` of the old file version. Ensures that the file hasn't been updated since getting the etag, which could indicate conflicting edits.
     ///   - performPreflightCheck: Checks whether new file version will be accepted before whole new version is uploaded.
     ///   - completion: Returns a standard file object or an error.
     /// - Returns: BoxUploadTask
@@ -323,6 +326,7 @@ public class FilesModule {
         name: String? = nil,
         contentModifiedAt: String? = nil,
         data: Data,
+        ifMatch: String? = nil,
         progress: @escaping (Progress) -> Void = { _ in },
         performPreflightCheck: Bool = false,
         completion: @escaping Callback<File>
@@ -345,6 +349,7 @@ public class FilesModule {
                             name: name,
                             contentModifiedAt: contentModifiedAt,
                             data: data,
+                            ifMatch: ifMatch,
                             progress: progress,
                             completion: completion
                         )
@@ -362,9 +367,15 @@ public class FilesModule {
         name: String? = nil,
         contentModifiedAt: String? = nil,
         data: Data,
+        ifMatch: String? = nil,
         progress: @escaping (Progress) -> Void = { _ in },
         completion: @escaping Callback<File>
     ) -> BoxUploadTask {
+        var headers: BoxHTTPHeaders = [:]
+        if let unwrappedIfMatch = ifMatch {
+            headers[BoxHTTPHeaderKey.ifMatch] = unwrappedIfMatch
+        }
+
         var attributes: [String: Any] = [:]
         attributes["name"] = name
         attributes["content_modified_at"] = contentModifiedAt
@@ -381,6 +392,7 @@ public class FilesModule {
 
         return boxClient.post(
             url: URL.boxUploadEndpoint("/api/2.0/files/\(fileId)/content", configuration: boxClient.configuration),
+            httpHeaders: headers,
             multipartBody: body,
             progress: progress,
             completion: ResponseHandler.unwrapCollection(wrapping: completion)
@@ -468,6 +480,102 @@ public class FilesModule {
 
         return boxClient.post(
             url: URL.boxUploadEndpoint("/api/2.0/files/content", configuration: boxClient.configuration),
+            multipartBody: body,
+            progress: progress,
+            completion: ResponseHandler.unwrapCollection(wrapping: completion)
+        )
+    }
+
+    /// Upload a new version of an existing file.
+    ///
+    /// - Parameters:
+    ///   - stream: An InputStream of data for the file to be uploaded.
+    ///   - fileSize: The length of the InputStream
+    ///   - forFile: The ID of the file
+    ///   - name: The name of the file. Box supports file names of 255 characters or
+    ///     less. Names containing non-printable ASCII characters, "/" or "\", names with trailing
+    ///     spaces, and the special names “.” and “..” are also not allowed.
+    ///   - contentModifiedAt: The time the file was last modified. Defaults to time of upload.
+    ///   - ifMatch: The `etag` of the file version. Ensures this item hasn't recently changed before making changes.
+    ///   - performPreflightCheck: Defines whether to perform preflight request first check to see whether uploaded file parameters
+    ///     such as size and name won't cause an upload error.
+    ///   - completion: Returns a standard file object or an error.
+    /// - Returns: BoxUploadTask
+    @discardableResult
+    public func streamUploadVersion(
+        stream: InputStream,
+        fileSize: Int,
+        forFile fileId: String,
+        name: String,
+        contentModifiedAt: String? = nil,
+        ifMatch: String? = nil,
+        progress: @escaping (Progress) -> Void = { _ in },
+        performPreflightCheck: Bool = false,
+        completion: @escaping Callback<File>
+    ) -> BoxUploadTask {
+        let task = BoxUploadTask()
+        task.receiveTask(
+            updateWithPreflightCheck(
+                performCheck: performPreflightCheck,
+                fileId: fileId,
+                name: name,
+                size: Int64(fileSize),
+                request: { [weak self] in
+                    guard let self = self else {
+                        return
+                    }
+                    task.receiveTask(
+                        self.streamUploadVersion(
+                            stream: stream,
+                            fileSize: fileSize,
+                            forFile: fileId,
+                            name: name,
+                            contentModifiedAt: contentModifiedAt,
+                            ifMatch: ifMatch,
+                            progress: progress,
+                            completion: completion
+                        )
+                    )
+                },
+                completion: completion
+            )
+        )
+        return task
+    }
+
+    /// Stream upload request without preflight check.
+    private func streamUploadVersion(
+        stream: InputStream,
+        fileSize: Int,
+        forFile fileId: String,
+        name: String,
+        contentModifiedAt: String? = nil,
+        ifMatch: String? = nil,
+        progress: @escaping (Progress) -> Void = { _ in },
+        completion: @escaping Callback<File>
+    ) -> BoxUploadTask {
+        var headers: BoxHTTPHeaders = [:]
+        if let unwrappedIfMatch = ifMatch {
+            headers[BoxHTTPHeaderKey.ifMatch] = unwrappedIfMatch
+        }
+
+        var attributes: [String: Any] = [:]
+        attributes["name"] = name
+        attributes["content_modified_at"] = contentModifiedAt
+
+        var body = MultipartForm()
+        do {
+            body.appendPart(name: "attributes", contents: try JSONSerialization.data(withJSONObject: attributes))
+            body.appendFilePart(name: "file", contents: stream, length: fileSize, fileName: "UNUSED", mimeType: "application/octet-stream")
+        }
+        catch {
+            completion(.failure(BoxCodingError(message: "Error with encoding multipart from", error: error)))
+            return BoxUploadTask()
+        }
+
+        return boxClient.post(
+            url: URL.boxUploadEndpoint("/api/2.0/files/\(fileId)/content", configuration: boxClient.configuration),
+            httpHeaders: headers,
             multipartBody: body,
             progress: progress,
             completion: ResponseHandler.unwrapCollection(wrapping: completion)
@@ -705,17 +813,16 @@ public class FilesModule {
         forFile fileId: String,
         marker: String? = nil,
         limit: Int? = nil,
-        fields: [String]? = nil,
-        completion: @escaping Callback<PagingIterator<Collaboration>>
-    ) {
-        boxClient.get(
+        fields: [String]? = nil
+    ) -> PagingIterator<Collaboration> {
+        .init(
+            client: boxClient,
             url: URL.boxAPIEndpoint("/2.0/files/\(fileId)/collaborations", configuration: boxClient.configuration),
             queryParameters: [
                 "marker": marker,
                 "limit": limit,
                 "fields": FieldsQueryParam(fields)
-            ],
-            completion: ResponseHandler.pagingIterator(client: boxClient, wrapping: completion)
+            ]
         )
     }
 
@@ -737,17 +844,16 @@ public class FilesModule {
         forFile fileId: String,
         offset: Int?,
         limit: Int?,
-        fields: [String]? = nil,
-        completion: @escaping Callback<PagingIterator<Comment>>
-    ) {
-        boxClient.get(
+        fields: [String]? = nil
+    ) -> PagingIterator<Comment> {
+        .init(
+            client: boxClient,
             url: URL.boxAPIEndpoint("/2.0/files/\(fileId)/comments", configuration: boxClient.configuration),
             queryParameters: [
                 "offset": offset,
                 "limit": limit,
                 "fields": FieldsQueryParam(fields)
-            ],
-            completion: ResponseHandler.pagingIterator(client: boxClient, wrapping: completion)
+            ]
         )
     }
 
@@ -763,17 +869,16 @@ public class FilesModule {
     ///   - completion: Returns all of the tasks on the file
     public func listTasks(
         forFile fileId: String,
-        fields: [String]? = nil,
-        completion: @escaping Callback<PagingIterator<Task>>
-    ) {
-        boxClient.get(
+        fields: [String]? = nil
+    ) -> PagingIterator<Task> {
+        .init(
+            client: boxClient,
             url: URL.boxAPIEndpoint("/2.0/files/\(fileId)/tasks", configuration: boxClient.configuration),
             queryParameters: [
                 "offset": 0,
                 "limit": 1000,
                 "fields": FieldsQueryParam(fields)
-            ],
-            completion: ResponseHandler.pagingIterator(client: boxClient, wrapping: completion)
+            ]
         )
     }
 
@@ -950,17 +1055,16 @@ public class FilesModule {
         fileId: String,
         offset: Int? = nil,
         limit: Int? = nil,
-        fields: [String]? = nil,
-        completion: @escaping Callback<PagingIterator<FileVersion>>
-    ) {
-        boxClient.get(
+        fields: [String]? = nil
+    ) -> PagingIterator<FileVersion> {
+        .init(
+            client: boxClient,
             url: URL.boxAPIEndpoint("/2.0/files/\(fileId)/versions", configuration: boxClient.configuration),
             queryParameters: [
                 "offset": offset,
                 "limit": limit,
                 "fields": FieldsQueryParam(fields)
-            ],
-            completion: ResponseHandler.pagingIterator(client: boxClient, wrapping: completion)
+            ]
         )
     }
 

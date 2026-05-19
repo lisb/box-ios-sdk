@@ -136,7 +136,7 @@ Upload New File Version
 -----------------------
 
 To upload a new version of an existing file, call
-[`client.files.uploadVersion(forFile:name:contentModifiedAt:data:progress:completion:)`][upload-file-version]
+[`client.files.uploadVersion(forFile:name:contentModifiedAt:data:ifMatch:progress:completion:)`][upload-file-version]
 with the ID of the file and the file contents to be uploaded.
 
 <!-- sample post_files_id_content -->
@@ -162,7 +162,36 @@ if someConditionIsSatisfied {
 }
 ```
 
+To upload a new version of an existing file from a stream, use
+[`client.files.streamUploadVersion(stream:fileSize:forFile:name:contentModifiedAt:ifMatch:progress:completion:)`][upload-file-version-stream].
+
+```swift
+let data = "updated file content".data(using: .utf8)
+let stream = InputStream(data: data)
+
+let task: BoxUploadTask = client.files.streamUploadVersion(
+    stream: stream,
+    fileSize: 12,
+    forFile: "11111",
+    name: "New file name.txt",
+    contentModifiedAt: "2021-03-07T09:19:13-07:00"
+) { (result: Result<File, BoxSDKError>) in
+    guard case let .success(file) = result else {
+        print("Error uploading file version")
+        return
+    }
+
+    print("New version of \(file.name) was uploaded")
+}
+
+// To cancel upload
+if someConditionIsSatisfied {
+    task.cancel()
+}
+```
+
 [upload-file-version]: https://opensource.box.com/box-ios-sdk/Classes/FilesModule.html#/s:6BoxSDK11FilesModuleC13uploadVersion7forFile4name17contentModifiedAt4data8progress21performPreflightCheck10completionySS_SSSgAL10Foundation4DataVySo10NSProgressCcSbys6ResultOyAA0H0CAA0A8SDKErrorCGctF
+[upload-file-version-stream]: https://opensource.box.com/box-ios-sdk/Classes/FilesModule.html#/s:6BoxSDK11FilesModuleC13uploadVersion7forFile4name17contentModifiedAt4data8progress21performPreflightCheck10completionySS_SSSgAL10Foundation4DataVySo10NSProgressCcSbys6ResultOyAA0H0CAA0A8SDKErrorCGctF
 
 Download File
 -------------
@@ -305,23 +334,18 @@ Get File Collaborations
 
 To retrieve a list of collaborations on a file, call
 [`client.files.listCollaborations(forFile:marker:limit:fields:)`][get-collaborations]
-with the ID of the file.  This method returns an iterator in the completion, which is used to retrieve file collaborations.
+with the ID of the file.  This method returns an iterator, which is used to retrieve file collaborations.
 
 <!-- sample get_files_id_collaborations -->
 ```swift
-client.files.listCollaborations(forFile: "11111") { result in
+let iterator = client.files.listCollaborations(forFile: "11111")
+iterator.next { result in
     switch results {
-    case let .success(iterator):
-        for i in 1 ... 10 {
-            iterator.next { result in
-                switch result {
-                case let .success(collaboration):
-                    print("Collaboration created by \(collaboration.createdBy?.name)")
-                case let .failure(error):
-                    print(error)
-                }
-            }
+    case let .success(page):
+        for collaboration in page.entries {
+            print("Collaboration created by \(collaboration.createdBy?.name)")
         }
+
     case let .failure(error):
         print(error)
     }
@@ -335,24 +359,19 @@ Get File Comments
 
 To retrieve a list of comments on the file, call
 [`client.files.listComments(forFile:offset:limit:fields:)`][get-comments]
-with the ID of the file.  This method returns an iterator in the completion, which is used to page through the collection
+with the ID of the file.  This method returns an iterator, which is used to page through the collection
 of file comments.
 
 <!-- sample get_files_id_comments -->
 ```swift
-client.files.listComments(forFile: "11111"){ results in
+let iterator = client.files.listComments(forFile: "11111")
+iterator.next { results in
     switch results {
-    case let .success(iterator):
-        for i in 1 ... 10 {
-            iterator.next { result in
-                switch result {
-                case let .success(comment):
-                    print(comment.message)
-                case let .failure(error):
-                    print(error)
-                }
-            }
+    case let .success(page):
+        for comment in page.entries {
+            print(comment.message)
         }
+
     case let .failure(error):
         print(error)
     }
@@ -365,23 +384,18 @@ Get File Tasks
 --------------
 
 To retrieve a list of file tasks, call [`client.files.listTasks(forFile:fields:)`][get-tasks] with the ID of the
-file.  This method returns an iterator in the completion, which is used to retrieve file comments.
+file.  This method returns an iterator, which is used to retrieve file comments.
 
 <!-- sample get_files_id_tasks -->
 ```swift
-client.files.listTasks(forFile: "11111") { results in
+let iterator = client.files.listTasks(forFile: "11111")
+iterator.next { results in
     switch results {
-    case let .success(iterator):
-        for i in 1 ... 10 {
-            iterator.next { result in
-                switch result {
-                case let .success(item):
-                    print("Task messsage: \(task.message)")
-                case let .failure(error):
-                    print(error)
-                }
-            }
+    case let .success(page):
+        for task in page.entries {
+            print("Task messsage: \(task.message)")
         }
+
     case let .failure(error):
         print(error)
     }
