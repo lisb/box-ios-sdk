@@ -80,7 +80,7 @@ class BoxSDKSpecs: QuickSpec {
                     let sdk = BoxSDK(clientId: "1234567", clientSecret: "abcdef")
                     let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
                     var client: BoxClient?
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         sdk.getOAuth2Client(tokenInfo: tokenInfo) { result in
                             switch result {
                             case let .success(ouathClient):
@@ -105,7 +105,7 @@ class BoxSDKSpecs: QuickSpec {
                     let sdk = BoxSDK(clientId: "1234567", clientSecret: "abcdef", callbackURL: "https://app.box.com")
                     let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
                     var client: BoxClient?
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         sdk.getOAuth2Client(tokenInfo: tokenInfo) { result in
                             switch result {
                             case let .success(oauthClient):
@@ -134,7 +134,7 @@ class BoxSDKSpecs: QuickSpec {
                     let tokenStore = TestTokenStore(shouldFail: false)
                     let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
                     tokenStore.write(tokenInfo: tokenInfo) { _ in }
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         sdk.getOAuth2Client(tokenStore: tokenStore) { result in
                             switch result {
                             case let .success(ouathClient):
@@ -164,7 +164,7 @@ class BoxSDKSpecs: QuickSpec {
                     let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
                     tokenStore.write(tokenInfo: tokenInfo) { _ in }
                     tokenStore.shouldFail = true
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         sdk.getOAuth2Client(tokenStore: tokenStore) { result in
                             switch result {
                             case let .success(ouathClient):
@@ -191,7 +191,7 @@ class BoxSDKSpecs: QuickSpec {
                     let sdk = BoxSDK(clientId: "1234567", clientSecret: "abcdef")
                     let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
                     var client: BoxClient?
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         sdk.getOAuth2Client(tokenInfo: tokenInfo, tokenStore: TestTokenStore(shouldFail: false)) { result in
                             switch result {
                             case let .success(ouathClient):
@@ -217,7 +217,7 @@ class BoxSDKSpecs: QuickSpec {
                 it("should not initialize client with provided token info and tokenStore as tokenStore fail to write token info ") {
                     let sdk = BoxSDK(clientId: "1234567", clientSecret: "abcdef")
                     let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         sdk.getOAuth2Client(tokenInfo: tokenInfo, tokenStore: TestTokenStore(shouldFail: true)) { result in
                             switch result {
                             case let .success(ouathClient):
@@ -247,7 +247,7 @@ class BoxSDKSpecs: QuickSpec {
                 it("should get a new client after the web flow") {
                     let sdk = BoxSDKSpy()
                     var client: BoxClient?
-                    waitUntil(timeout: 1.0) { done in
+                    waitUntil(timeout: .seconds(1)) { done in
                         sdk.getOAuth2Client { result in
                             switch result {
                             case let .success(ouathClient):
@@ -256,6 +256,62 @@ class BoxSDKSpecs: QuickSpec {
                                     switch result {
                                     case let .success(token):
                                         expect(token).to(equal("T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl"))
+                                    case let .failure(error):
+                                        fail("getOAuth2Client should succeed, but instead got \(error)")
+                                    }
+                                    done()
+                                }
+                            case let .failure(error):
+                                fail("getOAuth2Client should succeed, but instead got \(error)")
+                            }
+                        }
+                    }
+                }
+            }
+
+            context("User is able to get a delegate client with a provided token info") {
+                it("should initialize client with provided token info when token info is passed in") {
+                    let sdk = BoxSDK(clientId: "1234567", clientSecret: "abcdef")
+                    let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
+                    var client: BoxClient?
+                    waitUntil(timeout: .seconds(10)) { done in
+                        sdk.getDelegatedAuthClient(authClosure: { _, _ in }, uniqueID: "UniqueID", tokenInfo: tokenInfo) { result in
+                            switch result {
+                            case let .success(ouathClient):
+                                client = ouathClient
+                                client?.session.getAccessToken { result in
+                                    switch result {
+                                    case let .success(token):
+                                        expect(token).to(equal(tokenInfo.accessToken))
+                                    case let .failure(error):
+                                        fail("getOAuth2Client should succeed, but instead got \(error)")
+                                    }
+                                    done()
+                                }
+                            case let .failure(error):
+                                fail("getOAuth2Client should succeed, but instead got \(error)")
+                            }
+                        }
+                    }
+                }
+            }
+
+            context("User is able to get a delegate client with a provided TokenStore") {
+                it("should initialize client with provided TokenStore and valid tokenInfo on it") {
+                    let sdk = BoxSDK(clientId: "1234567", clientSecret: "abcdef")
+                    var client: BoxClient?
+                    let tokenStore = TestTokenStore(shouldFail: false)
+                    let tokenInfo = TokenInfo(accessToken: "a valid token", refreshToken: "a valid refresh token", expiresIn: 3600, tokenType: "bearer")
+                    tokenStore.write(tokenInfo: tokenInfo) { _ in }
+                    waitUntil(timeout: .seconds(10)) { done in
+                        sdk.getDelegatedAuthClient(authClosure: { _, _ in }, uniqueID: "UniqueID", tokenStore: tokenStore) { result in
+                            switch result {
+                            case let .success(ouathClient):
+                                client = ouathClient
+                                client?.session.getAccessToken { result in
+                                    switch result {
+                                    case let .success(token):
+                                        expect(token).to(equal(tokenInfo.accessToken))
                                     case let .failure(error):
                                         fail("getOAuth2Client should succeed, but instead got \(error)")
                                     }

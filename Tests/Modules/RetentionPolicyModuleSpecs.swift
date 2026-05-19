@@ -38,7 +38,7 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.retentionPolicy.get(policyId: id) { result in
                             switch result {
                             case let .success(retentionPolicy):
@@ -90,7 +90,7 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.retentionPolicy.create(
                             name: "Tax Documents",
                             type: .finite,
@@ -140,7 +140,7 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.retentionPolicy.update(
                             policyId: id,
                             name: "Tax Documents",
@@ -177,28 +177,22 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
-                        self.sut.retentionPolicy.list(
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.retentionPolicy.list(
                             name: "name",
                             type: .finite,
                             createdByUserId: "1234"
-                        ) { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(retentionPolicy):
-                                        expect(retentionPolicy.name).to(equal("Tax Documents"))
-                                        expect(retentionPolicy.id).to(equal("123456789"))
-                                    case let .failure(error):
-                                        fail("Expected call to list to succeed, but instead got \(error)")
-                                    }
-                                    done()
-                                }
+                        )
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let retentionPolicy = page.entries[0]
+                                expect(retentionPolicy.name).to(equal("Tax Documents"))
+                                expect(retentionPolicy.id).to(equal("123456789"))
                             case let .failure(error):
                                 fail("Expected call to list to succeed, but instead got \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }
@@ -219,7 +213,7 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.retentionPolicy.getAssignment(assignmentId: id) { result in
                             switch result {
                             case let .success(retentionPolicyAssignment):
@@ -265,7 +259,7 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.retentionPolicy.assign(
                             policyId: id,
                             assignedContentId: id,
@@ -306,23 +300,17 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
-                        self.sut.retentionPolicy.listAssignments(policyId: id, type: .finite) { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(retentionPolicy):
-                                        expect(retentionPolicy.id).to(equal("12345678"))
-                                    case let .failure(error):
-                                        fail("Expected call to listAssignments to succeed, but instead got \(error)")
-                                    }
-                                    done()
-                                }
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.retentionPolicy.listAssignments(policyId: id, type: .finite)
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let retentionPolicy = page.entries[0]
+                                expect(retentionPolicy.id).to(equal("12345678"))
                             case let .failure(error):
                                 fail("Expected call to listAssignments to succeed, but instead got \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }
@@ -344,7 +332,7 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.files.getVersionRetention(
                             retentionId: id
                         ) { result in
@@ -368,7 +356,7 @@ class RetentionPolicyModuleSpecs: QuickSpec {
 
             describe("listVersionRetentions()") {
                 it("should get all file version retentions for the given enterprise") {
-                    let dispositionBefore: Date = Date()
+                    let dispositionBefore = Date()
                     stub(
                         condition: isHost("api.box.com") &&
                             isPath("/2.0/file_version_retentions") &&
@@ -386,28 +374,22 @@ class RetentionPolicyModuleSpecs: QuickSpec {
                             statusCode: 200, headers: ["Content-Type": "application/json"]
                         )
                     }
-                    waitUntil(timeout: 10) { done in
-                        self.sut.files.listVersionRetentions(
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.files.listVersionRetentions(
                             fileId: "1234",
                             fileVersionId: "1234",
                             policyId: "1234",
                             dispositionAction: .permanentlyDelete, dispositionBefore: dispositionBefore
-                        ) { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(retentionPolicy):
-                                        expect(retentionPolicy.id).to(equal("112725"))
-                                    case let .failure(error):
-                                        fail("Expected call to getFileVersionRetentions to succeed, but instead got \(error)")
-                                    }
-                                    done()
-                                }
+                        )
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let retentionPolicy = page.entries[0]
+                                expect(retentionPolicy.id).to(equal("112725"))
                             case let .failure(error):
                                 fail("Expected call to getFileVersionRetentions to succeed, but instead got \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }

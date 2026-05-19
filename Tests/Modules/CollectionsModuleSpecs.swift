@@ -40,27 +40,21 @@ class CollectionsModulesSpecs: QuickSpec {
                 }
 
                 it("should be able to get a list of collections") {
-                    waitUntil(timeout: 10) { done in
-                        self.sut.collections.list { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(firstCollection):
-                                        expect(firstCollection).to(beAKindOf(BoxCollection.self))
-                                        expect(firstCollection.collectionType).to(equal("favorites"))
-                                        expect(firstCollection.id).to(equal("405151"))
-                                        expect(firstCollection.name).to(equal("Favorites"))
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.collections.list()
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let firstCollection = page.entries[0]
+                                expect(firstCollection).to(beAKindOf(BoxCollection.self))
+                                expect(firstCollection.collectionType).to(equal("favorites"))
+                                expect(firstCollection.id).to(equal("405151"))
+                                expect(firstCollection.name).to(equal("Favorites"))
 
-                                    case let .failure(error):
-                                        fail("Expected call to list to succeed, but instead got \(error)")
-                                    }
-                                    done()
-                                }
                             case let .failure(error):
                                 fail("Expected call to list to succeed, but instead got \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }
@@ -79,7 +73,7 @@ class CollectionsModulesSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.collections.getFavorites { result in
                             switch result {
                             case let .success(favoritesCollection):
@@ -107,7 +101,7 @@ class CollectionsModulesSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.collections.getFavorites { result in
                             switch result {
                             case .success:
@@ -136,33 +130,27 @@ class CollectionsModulesSpecs: QuickSpec {
                     }
                 }
                 it("should be able to get list of collection items") {
-                    waitUntil(timeout: 10) { done in
-                        self.sut.collections.listItems(collectionId: "123") { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(item):
-                                        if case let .folder(folder) = item {
-                                            expect(folder).toNot(beNil())
-                                            expect(folder.id).to(equal("192429928"))
-                                            expect(folder.name).to(equal("Test Folder"))
-                                            expect(folder.sequenceId).to(equal("1"))
-                                            expect(folder.etag).to(equal("1"))
-                                        }
-                                        else {
-                                            fail("Expected test item to be a folder")
-                                        }
-
-                                    case let .failure(error):
-                                        fail("Expected getCollectionItems request to succeed, but it failed: \(error)")
-                                    }
-                                    done()
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.collections.listItems(collectionId: "123")
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let item = page.entries[0]
+                                if case let .folder(folder) = item {
+                                    expect(folder).toNot(beNil())
+                                    expect(folder.id).to(equal("192429928"))
+                                    expect(folder.name).to(equal("Test Folder"))
+                                    expect(folder.sequenceId).to(equal("1"))
+                                    expect(folder.etag).to(equal("1"))
                                 }
+                                else {
+                                    fail("Expected test item to be a folder")
+                                }
+
                             case let .failure(error):
                                 fail("Expected getCollectionItems request to succeed, but it failed: \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }

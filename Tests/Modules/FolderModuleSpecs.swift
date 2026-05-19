@@ -45,7 +45,7 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.create(name: "Pictures", parentId: BoxSDK.Constants.rootFolder) { result in
                             switch result {
                             case let .success(folder):
@@ -72,7 +72,7 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.create(name: "Pictures", parentId: BoxSDK.Constants.rootFolder) { result in
                             switch result {
                             case .success:
@@ -104,35 +104,42 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
 
-                        self.sut.folders.listItems(folderId: BoxSDK.Constants.rootFolder, usemarker: false, offset: 0, limit: 2, direction: .ascending, fields: ["name", "url", "description"]) { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(firstItem):
-                                        guard case let .folder(folder) = firstItem else {
-                                            fail("Unable to get folder items")
-                                            done()
-                                            return
-                                        }
-                                        expect(folder).to(beAKindOf(Folder.self))
-                                        expect(folder.id).to(equal("11111"))
-                                        expect(folder.name).to(equal("TestFolder"))
-                                        expect(folder.etag).to(equal("0"))
-                                        expect(folder.sequenceId).to(equal("0"))
-
-                                    case let .failure(error):
-                                        fail("Unable to get folder items: \(error)")
-                                    }
+                        let iterator = self.sut.folders.listItems(folderId: BoxSDK.Constants.rootFolder, usemarker: false, offset: 0, limit: 2, direction: .ascending, fields: ["name", "url", "description"])
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let firstItem = page.entries[0]
+                                guard case let .folder(folder) = firstItem else {
+                                    fail("Unable to get folder items")
                                     done()
+                                    return
                                 }
+                                expect(folder).to(beAKindOf(Folder.self))
+                                expect(folder.id).to(equal("11111"))
+                                expect(folder.name).to(equal("TestFolder"))
+                                expect(folder.etag).to(equal("0"))
+                                expect(folder.sequenceId).to(equal("0"))
+
+                                let secondItem = page.entries[1]
+                                guard case let .webLink(webLink) = secondItem else {
+                                    fail("Unable to get folder items")
+                                    done()
+                                    return
+                                }
+
+                                expect(webLink).to(beAKindOf(WebLink.self))
+                                expect(webLink.id).to(equal("11111"))
+                                expect(webLink.name).to(equal("Example Web Link"))
+                                expect(webLink.etag).to(equal("0"))
+                                expect(webLink.sequenceId).to(equal("0"))
+                                expect(webLink.url).to(equal(URL(string: "http://example.com")))
 
                             case let .failure(error):
                                 fail("Unable to get folder items: \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }
@@ -152,35 +159,29 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
 
-                        self.sut.folders.listItems(folderId: BoxSDK.Constants.rootFolder, usemarker: true, offset: 0, limit: 2, direction: .ascending, fields: ["name", "url", "description"]) { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(firstItem):
-                                        guard case let .folder(folder) = firstItem else {
-                                            fail("Unable to get folder items")
-                                            done()
-                                            return
-                                        }
-
-                                        expect(folder).to(beAKindOf(Folder.self))
-                                        expect(folder.id).to(equal("69102302893"))
-                                        expect(folder.name).to(equal("TestFolder"))
-                                        expect(folder.etag).to(equal("0"))
-                                        expect(folder.sequenceId).to(equal("0"))
-
-                                    case let .failure(error):
-                                        fail("Unable to get folder items: \(error)")
-                                    }
+                        let iterator = self.sut.folders.listItems(folderId: BoxSDK.Constants.rootFolder, usemarker: true, offset: 0, limit: 2, direction: .ascending, fields: ["name", "url", "description"])
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let firstItem = page.entries[0]
+                                guard case let .folder(folder) = firstItem else {
+                                    fail("Unable to get folder items")
                                     done()
+                                    return
                                 }
+
+                                expect(folder).to(beAKindOf(Folder.self))
+                                expect(folder.id).to(equal("69102302893"))
+                                expect(folder.name).to(equal("TestFolder"))
+                                expect(folder.etag).to(equal("0"))
+                                expect(folder.sequenceId).to(equal("0"))
+
                             case let .failure(error):
                                 fail("Unable to get folder items: \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }
@@ -193,23 +194,18 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
 
-                        self.sut.folders.listItems(folderId: BoxSDK.Constants.rootFolder, usemarker: false, offset: 0, limit: 2, direction: .ascending, fields: ["name", "url", "description"]) { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    default:
-                                        fail("Expected call to get folder items to fail, but it suceeded")
-                                    }
-                                    done()
-                                }
+                        let iterator = self.sut.folders.listItems(folderId: BoxSDK.Constants.rootFolder, usemarker: false, offset: 0, limit: 2, direction: .ascending, fields: ["name", "url", "description"])
+                        iterator.next { result in
+                            switch result {
                             case let .failure(error):
                                 expect(error).toNot(beNil())
                                 expect(error).to(beAKindOf(BoxSDKError.self))
-                                done()
+                            default:
+                                fail("Expected call to get folder items to fail, but it suceeded")
                             }
+                            done()
                         }
                     }
                 }
@@ -222,7 +218,7 @@ class FolderModuleSpecs: QuickSpec {
                         OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: [:])
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.delete(folderId: "1234567") { response in
                             switch response {
                             case .success:
@@ -240,7 +236,7 @@ class FolderModuleSpecs: QuickSpec {
                         OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: [:])
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.delete(folderId: "1234567", recursive: true) { response in
                             switch response {
                             case .success:
@@ -258,7 +254,7 @@ class FolderModuleSpecs: QuickSpec {
                         OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: [:])
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.delete(folderId: "1234567", recursive: false) { response in
                             switch response {
                             case .success:
@@ -279,7 +275,7 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.delete(folderId: "1231231", recursive: true) { response in
                             switch response {
                             case .success:
@@ -303,7 +299,7 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10.0) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.copy(folderId: "11446498", destinationFolderID: "123456", name: "Pictures copy") { result in
                             switch result {
                             case let .success(folder):
@@ -338,29 +334,22 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
-                        self.sut.folders.listCollaborations(folderId: "14176246") { results in
-                            switch results {
-                            case let .success(iterator):
-                                iterator.next { result in
-                                    switch result {
-                                    case let .success(item):
-                                        expect(item).to(beAKindOf(Collaboration.self))
-                                        expect(item.id).to(equal("11111"))
-                                        expect(item.createdBy).to(beAKindOf(User.self))
-                                        expect(item.createdBy?.id).to(equal("22222"))
-                                        expect(item.createdBy?.name).to(equal("Test User"))
-
-                                    case let .failure(error):
-                                        fail("Expected listCollaborations, but it failed: \(error)")
-                                    }
-                                    done()
-                                }
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.folders.listCollaborations(folderId: "14176246")
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let item = page.entries[0]
+                                expect(item).to(beAKindOf(Collaboration.self))
+                                expect(item.id).to(equal("11111"))
+                                expect(item.createdBy).to(beAKindOf(User.self))
+                                expect(item.createdBy?.id).to(equal("22222"))
+                                expect(item.createdBy?.name).to(equal("Test User"))
 
                             case let .failure(error):
                                 fail("Expected listCollaborations, but it failed: \(error)")
-                                done()
                             }
+                            done()
                         }
                     }
                 }
@@ -401,7 +390,7 @@ class FolderModuleSpecs: QuickSpec {
                     }
                 }
                 it("should make API call to add folder to favorites") {
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.addToFavorites(folderId: "5000948880", completion: { result in
                             switch result {
                             case let .success(folder):
@@ -451,7 +440,7 @@ class FolderModuleSpecs: QuickSpec {
                     }
                 }
                 it("should make API call to remove folder from favorites") {
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.removeFromFavorites(folderId: "5000948880", completion: { result in
                             switch result {
                             case let .success(folder):
@@ -482,7 +471,7 @@ class FolderModuleSpecs: QuickSpec {
                 }
 
                 it("should download a shared link for a folder", closure: {
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.getSharedLink(forFolder: "5000948880") { result in
                             switch result {
                             case let .success(sharedLink):
@@ -514,7 +503,7 @@ class FolderModuleSpecs: QuickSpec {
                         }
                     }
                     it("should update a shared link on a folder", closure: {
-                        waitUntil(timeout: 10) { done in
+                        waitUntil(timeout: .seconds(10)) { done in
                             self.sut.folders.setSharedLink(forFolder: "5000948880", access: SharedLinkAccess.open, password: .value("frog")) { result in
                                 switch result {
                                 case let .success(sharedLink):
@@ -548,7 +537,7 @@ class FolderModuleSpecs: QuickSpec {
                         }
                     }
                     it("should update a shared link on a folder", closure: {
-                        waitUntil(timeout: 10) { done in
+                        waitUntil(timeout: .seconds(10)) { done in
                             self.sut.folders.setSharedLink(forFolder: "5000948880", access: SharedLinkAccess.open) { result in
                                 switch result {
                                 case let .success(sharedLink):
@@ -582,7 +571,7 @@ class FolderModuleSpecs: QuickSpec {
                         }
                     }
                     it("should update a shared link on a folder", closure: {
-                        waitUntil(timeout: 10) { done in
+                        waitUntil(timeout: .seconds(10)) { done in
                             self.sut.folders.setSharedLink(forFolder: "5000948880", access: SharedLinkAccess.open, password: .null) { result in
                                 switch result {
                                 case let .success(sharedLink):
@@ -616,7 +605,7 @@ class FolderModuleSpecs: QuickSpec {
                     }
                 }
                 it("should delete a shared link for a folder", closure: {
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.deleteSharedLink(forFolder: "5000948880") { result in
                             switch result {
                             case .success:
@@ -643,7 +632,7 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.getWatermark(folderId: "12345") { result in
                             switch result {
                             case let .success(watermark):
@@ -677,7 +666,7 @@ class FolderModuleSpecs: QuickSpec {
                         )
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.applyWatermark(folderId: "12345") { result in
                             switch result {
                             case let .success(watermark):
@@ -699,7 +688,7 @@ class FolderModuleSpecs: QuickSpec {
                         OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: [:])
                     }
 
-                    waitUntil(timeout: 10) { done in
+                    waitUntil(timeout: .seconds(10)) { done in
                         self.sut.folders.removeWatermark(folderId: "12345") { response in
                             switch response {
                             case .success:
@@ -709,6 +698,124 @@ class FolderModuleSpecs: QuickSpec {
                             }
                             done()
                         }
+                    }
+                }
+            }
+
+            describe("listLocks()") {
+                it("should get folder locks") {
+                    stub(
+                        condition: isHost("api.box.com") && isPath("/2.0/folder_locks") && isMethodGET() &&
+                            containsQueryParams(["folder_id": "14176246"])
+                    ) { _ in
+                        OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("FolderLocks.json", type(of: self))!,
+                            statusCode: 200, headers: ["Content-Type": "application/json"]
+                        )
+                    }
+
+                    waitUntil(timeout: .seconds(10)) { done in
+                        let iterator = self.sut.folders.listLocks(folderId: "14176246")
+                        iterator.next { result in
+                            switch result {
+                            case let .success(page):
+                                let item = page.entries[0]
+                                expect(item).to(beAKindOf(FolderLock.self))
+                                expect(item.id).to(equal("12345678"))
+                                expect(item.createdBy).to(beAKindOf(User.self))
+                                expect(item.createdBy?.id).to(equal("11446498"))
+                                expect(item.lockType).to(equal("freeze"))
+
+                            case let .failure(error):
+                                fail("Expected folder locks, but it failed: \(error)")
+                            }
+                            done()
+                        }
+                    }
+                }
+            }
+
+            describe("createLock()") {
+                it("should create a folder lock") {
+                    stub(
+                        condition: isHost("api.box.com")
+                            && isPath("/2.0/folder_locks")
+                            && isMethodPOST()
+                            && hasJsonBody([
+                                "folder": [
+                                    "type": "folder",
+                                    "id": "14176246"
+                                ],
+                                "locked_operations": [
+                                    "move": true,
+                                    "delete": true
+                                ]
+                            ])
+                    ) { _ in
+                        OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("FolderLock.json", type(of: self))!,
+                            statusCode: 201, headers: ["Content-Type": "application/json"]
+                        )
+                    }
+
+                    waitUntil(timeout: .seconds(10)) { done in
+                        self.sut.folders.createLock(folderId: "14176246") { result in
+                            switch result {
+                            case let .success(folderLock):
+                                expect(folderLock).toNot(beNil())
+                                expect(folderLock).to(beAKindOf(FolderLock.self))
+                                expect(folderLock.lockType).to(equal("freeze"))
+                            case let .failure(error):
+                                fail("Expected call to create to suceeded, but instead got \(error)")
+                            }
+                            done()
+                        }
+                    }
+                }
+            }
+
+            describe("deleteLock()") {
+                it("should delete the lock") {
+                    stub(condition: isHost("api.box.com") && isPath("/2.0/folder_locks/1234567") && isMethodDELETE()) { _ in
+                        OHHTTPStubsResponse(data: Data(), statusCode: 204, headers: [:])
+                    }
+
+                    waitUntil(timeout: .seconds(10)) { done in
+                        self.sut.folders.deleteLock(folderLockId: "1234567") { response in
+                            switch response {
+                            case .success:
+                                break
+                            case let .failure(error):
+                                fail("Expected call to deleteLock to suceeded, but instead got \(error)")
+                            }
+                            done()
+                        }
+                    }
+                }
+            }
+
+            describe("FolderUploadEmailAccess") {
+
+                describe("init()") {
+
+                    it("should correctly create an enum value from it's string representation") {
+                        expect(FolderUploadEmailAccess.open).to(equal(FolderUploadEmailAccess(FolderUploadEmailAccess.open.description)))
+                        expect(FolderUploadEmailAccess.collaborators).to(equal(FolderUploadEmailAccess(FolderUploadEmailAccess.collaborators.description)))
+                        expect(FolderUploadEmailAccess.customValue("custom value")).to(equal(FolderUploadEmailAccess("custom value")))
+                    }
+                }
+            }
+
+            describe("FolderItemsOrderBy") {
+
+                describe("init()") {
+
+                    it("should correctly create an enum value from it's string representation") {
+                        expect(FolderItemsOrderBy.id).to(equal(FolderItemsOrderBy(FolderItemsOrderBy.id.description)))
+                        expect(FolderItemsOrderBy.name).to(equal(FolderItemsOrderBy(FolderItemsOrderBy.name.description)))
+                        expect(FolderItemsOrderBy.date).to(equal(FolderItemsOrderBy(FolderItemsOrderBy.date.description)))
+                        expect(FolderItemsOrderBy.type).to(equal(FolderItemsOrderBy(FolderItemsOrderBy.type.description)))
+                        expect(FolderItemsOrderBy.customValue("custom value")).to(equal(FolderItemsOrderBy("custom value")))
                     }
                 }
             }

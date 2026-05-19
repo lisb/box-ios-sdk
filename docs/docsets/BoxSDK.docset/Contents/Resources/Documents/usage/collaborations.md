@@ -63,6 +63,8 @@ To add a collaborator to an item, call
 with the type and ID of the item, as well as the type and ID of the collaborator — a user or a group.  A `role` for the
 collaborator must be specified, which will determine the permissions the collaborator receives on the item.
 
+To collaborate a user, pass in a user id and the `.user` accessible by type. 
+
 <!-- sample post_collaborations -->
 ```swift
 client.collaborations.create(
@@ -70,7 +72,27 @@ client.collaborations.create(
     itemId: "22222",
     role: .editor,
     accessibleBy: "33333",
-    accessibleByType: "user"
+    accessibleByType: .user
+) { (result: Result<Collaboration, BoxSDKError>) in
+    guard case let .success(collaboration) = result else {
+        print("Error creating collaboration")
+        return
+    }
+
+    print("Collaboration successfully created")
+}
+```
+
+To collaborate a group, pass in a group id and the `.group` accessible by type.
+
+<!-- sample post_collaborations group-->
+```swift
+client.collaborations.create(
+    itemType: "folder",
+    itemId: "22222",
+    role: .editor,
+    accessibleBy: "44444",
+    accessibleByType: .group
 ) { (result: Result<Collaboration, BoxSDKError>) in
     guard case let .success(collaboration) = result else {
         print("Error creating collaboration")
@@ -130,26 +152,21 @@ Get Pending Collaborations
 
 To retrieve a list of the pending collaborations requiring the user to accept or reject them, call
 [`client.collaborations.listPendingForEnterprise(offset:limit:fields:)`][get-pending-collaborations].
-The method returns an iterator in the completion, which is used to get pending collaborations.
+The method returns an iterator, which is used to get pending collaborations.
 
 <!-- sample get_collaborations -->
 ```swift
-client.collaborations.listPendingForEnterprise() { results in
-    switch results {
-    case let .success(iterator):
-        for i in 1 ... 10 {
-            iterator.next { result in
-                switch result {
-                case let .success(collaboration):
-                    print("Collaboration created by \(collaboration.createdBy?.name)")
-                case let .failure(error):
-                    print(error)
-                }
-            }
+let iterator = client.collaborations.listPendingForEnterprise()
+iterator.next { result in
+    switch result {
+    case let .success(page):
+        for collaboration in page.entries {
+            print("Collaboration created by \(collaboration.createdBy?.name)")
         }
+
     case let .failure(error):
         print(error)
-    } 
+    }
 }
 ```
 

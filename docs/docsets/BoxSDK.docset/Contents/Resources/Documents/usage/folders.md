@@ -19,6 +19,9 @@ collaborate a folder with another user or group, and perform other common folder
 - [Get Shared Link](#get-shared-link)
 - [Set Shared Link](#set-shared-link)
 - [Remove Shared Link](#remove-shared-link)
+- [Get Folder Locks](#get-folder-locks)
+- [Create Folder Lock](#create-folder-lock)
+- [Delete Folder Lock](#delete-folder-lock)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -52,30 +55,25 @@ Get Folder Items
 
 To retrieve information about the items contained in a folder, call
 [`client.folders.listItems(folderId:usemarker:marker:offset:limit:sort:direction:fields:)`][get-folder-items]
-with the ID of the folder.  This method will return an iterator in the completion, which is used to retrieve folder items.
+with the ID of the folder.  This method will return an iterator, which is used to retrieve folder items.
 
 <!-- sample get_folders_id_items -->
 ```swift
-let folderItems = client.folders.listItems(folderId: "22222", sort: .name, direction: .ascending) { results in
+let iterator = client.folders.listItems(folderId: "22222", sort: .name, direction: .ascending)
+iterator.next { results in
     switch results {
-    case let .success(iterator):
-        for i in 1 ... 10 {
-            iterator.next { result in
-                switch result {
-                case let .success(item):
-                    switch item {
-                    case let .file(file):
-                        print("File \(file.name) (ID: \(file.id)) is in the folder")
-                    case let .folder(folder):
-                        print("Subfolder \(folder.name) (ID: \(folder.id)) is in the folder")
-                    case let .webLink(webLink):
-                        print("Web link \(webLink.name) (ID: \(webLink.id)) is in the folder")
-                    }
-                case let .failure(error):
-                    print(error)
-                }
+    case let .success(page):
+        for item in page.entries {
+            switch item {
+            case let .file(file):
+                print("File \(file.name) (ID: \(file.id)) is in the folder")
+            case let .folder(folder):
+                print("Subfolder \(folder.name) (ID: \(folder.id)) is in the folder")
+            case let .webLink(webLink):
+                print("Web link \(webLink.name) (ID: \(webLink.id)) is in the folder")
             }
         }
+
     case let .failure(error):
         print(error)
     }
@@ -111,7 +109,7 @@ Delete Folder
 -------------
 
 To delete a folder, call
-[`client.folders.delet(folderId:recursive:completion:)`][delete-folder]
+[`client.folders.delete(folderId:recursive:completion:)`][delete-folder]
 with the ID of the folder to delete.  By default, the folder will only be deleted if it is empty and has no
 items in it; if you wish to delete all the items in the folder as well, pass `recursive: true`.
 
@@ -164,19 +162,14 @@ with the ID of the folder.
 
 <!-- sample get_folders_id_collaborations -->
 ```swift
-client.folders.listCollaborations(folderId: "22222") { results in
+let iterator = client.folders.listCollaborations(folderId: "22222")
+iterator.next { results in
     switch results {
-    case let .success(iterator):
-        for i in 1 ... 10 {
-            iterator.next { result in
-                switch result {
-                case let .success(collaboration):
-                    print("- \(collaboration.accessibleBy?.name)")
-                case let .failure(error):
-                    print(error)
-                }
-            }
+    case let .success(page):
+        for collaboration in page.entries {
+            print("- \(collaboration.accessibleBy?.name)")
         }
+
     case let .failure(error):
         print(error)
     }
@@ -277,3 +270,70 @@ client.folders.deleteSharedLink(forFolder: "11111") { (result: Result<Void, BoxS
 ```
 
 [delete-shared-link]: https://opensource.box.com/box-ios-sdk/Classes/FoldersModule.html#/s:6BoxSDK13FoldersModuleC16deleteSharedLink9forFolder10completionySS_ys6ResultOyytAA0A8SDKErrorCGctF
+
+
+Get Folder Locks
+-------------------------
+
+To retrieve a list of the locks on a folder, call
+[`client.folders.listLocks(folderId:completion:)`][get-folder-locks]
+with the ID of the folder. Folder locks define access restrictions placed by folder owners to prevent specific folders from being moved or deleted.
+
+<!-- sample get_folder_locks -->
+```swift
+client.folders.listLocks(folderId: "22222") { results in
+    switch results {
+    case let .success(iterator):
+        for i in 1 ... 10 {
+            iterator.next { result in
+                switch result {
+                case let .success(folderLock):
+                    print("- \(folderLock.id)")
+                case let .failure(error):
+                    print(error)
+                }
+            }
+        }
+    case let .failure(error):
+        print(error)
+    }
+}
+```
+
+Create Folder Lock
+-------------
+
+To lock a folder, call
+[`client.folders.createLock(folderId:completion:)`][create-folder-lock]
+with the ID of the folder. This prevents the folder from being moved and/or deleted.
+
+<!-- sample post_folder_locks -->
+```swift
+client.folders.createLock(folderId: "22222") { (result: Result<FolderLock, BoxSDKError>) in
+    guard case let .success(folderLock) = result else {
+        print("Error creating folder lock")
+        return
+    }
+
+    print("Created folder lock with id \"\(folderLock.id)\" inside of folder with id \"\(folderLock.folder.id)\"")
+}
+```
+
+Delete Folder Lock
+------------------
+
+To remove a folder lock, call
+[`client.folders.deleteLock(folderLockId:completion:)`][delete-folder-lock]
+with the ID of the folder lock.
+
+<!-- sample delete_folder_lock -->
+```swift
+client.folders.deleteLock(folderLockId: "11111") { (result: Result<Void, BoxSDKError>) in
+    guard case .success = result else {
+        print("Error removing folder lock")
+        return
+    }
+
+    print("Folder lock removed")
+}
+```
